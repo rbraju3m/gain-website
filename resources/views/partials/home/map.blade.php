@@ -97,7 +97,7 @@
     unset($d);
 @endphp
 
-<section id="map" class="bg-brand-cream py-24"
+<section id="map" class="bg-blueprint py-24"
          x-data="{
             active: 'dhaka',
             divisions: @js($divisionInfo),
@@ -121,14 +121,14 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
 
         <div class="text-center">
-            <span class="inline-flex items-center gap-2 rounded-full border border-brand-red-200 bg-white/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-red-500">
+            <span class="reveal inline-flex items-center gap-2 rounded-full border border-brand-red-200 bg-white/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-red-500">
                 <span class="h-1.5 w-1.5 rounded-full bg-brand-red-500"></span>
                 Where We Work
             </span>
-            <h2 class="mt-5 font-display text-4xl font-bold text-brand-ink sm:text-5xl">
+            <h2 class="reveal reveal-delay-100 mt-5 font-display text-4xl font-bold text-brand-ink sm:text-5xl">
                 Our Reach Across <span class="text-brand-green-600">Bangladesh</span>
             </h2>
-            <p class="mx-auto mt-4 max-w-2xl text-brand-muted">
+            <p class="reveal reveal-delay-200 mx-auto mt-4 max-w-2xl text-brand-muted">
                 Hover or tap a division to see impact. Filled dots mark districts with active programmes.
             </p>
         </div>

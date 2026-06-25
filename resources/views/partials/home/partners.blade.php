@@ -17,22 +17,26 @@
     ];
 @endphp
 
-<section id="partners" class="bg-brand-cream py-24">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+<section id="partners" class="relative overflow-hidden bg-section-cream-alt py-24">
+    {{-- Subtle dotted backdrop --}}
+    <div class="pointer-events-none absolute inset-0 bg-dots opacity-40"></div>
+
+    <div class="relative mx-auto max-w-7xl px-6 lg:px-10">
 
         <div class="text-center">
-            <h2 class="font-display text-4xl font-bold text-brand-ink sm:text-5xl">
+            <h2 class="reveal font-display text-4xl font-bold text-brand-ink sm:text-5xl">
                 Our <span class="text-brand-red-500">Partners</span>
             </h2>
-            <p class="mx-auto mt-4 max-w-2xl text-brand-muted">
+            <p class="reveal reveal-delay-100 mx-auto mt-4 max-w-2xl text-brand-muted">
                 Working together with leading organizations to amplify our impact.
             </p>
         </div>
 
         {{-- Row 1: Strategic partners — static grid --}}
         <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            @foreach ($strategicPartners as $p)
-                <div class="group flex h-32 items-center justify-center rounded-2xl bg-white p-5 shadow-card ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-soft">
+            @foreach ($strategicPartners as $i => $p)
+                @php $delays = ['', 'reveal-delay-100', 'reveal-delay-200', 'reveal-delay-300']; @endphp
+                <div class="reveal {{ $delays[$i] ?? '' }} group flex h-32 items-center justify-center rounded-2xl bg-white p-5 shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
                     <img
                         src="{{ asset('images/partners/' . $p['slug'] . '.svg') }}"
                         alt="{{ $p['name'] }}"
@@ -43,7 +47,7 @@
         </div>
 
         {{-- Row 2: Implementing partners — horizontal scrolling marquee --}}
-        <div class="mt-8 group relative overflow-hidden">
+        <div class="reveal reveal-delay-200 mt-8 group relative overflow-hidden">
             {{-- Fade edges --}}
             <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-brand-cream to-transparent"></div>
             <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-brand-cream to-transparent"></div>
@@ -61,6 +65,11 @@
             </div>
         </div>
     </div>
+
+    {{-- Divider: cream → burgundy (into CTA) --}}
+    <svg viewBox="0 0 1440 90" class="relative mt-12 block w-full text-[#9C2245]" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="currentColor" d="M0,40 C300,80 600,10 900,45 C1140,75 1300,60 1440,30 L1440,90 L0,90 Z"/>
+    </svg>
 </section>
 
 <style>

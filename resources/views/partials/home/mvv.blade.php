@@ -1,5 +1,5 @@
 {{-- Section 4: Mission / Vision / Values --}}
-<section class="bg-brand-cream pb-24">
+<section class="bg-section-cream pb-24">
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
         <div class="grid gap-6 md:grid-cols-3">
             @foreach ([
@@ -21,7 +21,8 @@
                     'body'  => 'Integrity, compassion, sustainability, innovation, and community empowerment guide everything we do.',
                     'icon'  => '<path d="M12 2 14 8h6l-5 4 2 7-7-4-7 4 2-7-5-4h6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
                 ],
-            ] as $card)
+            ] as $i => $card)
+                @php $delays = ['', 'reveal-delay-100', 'reveal-delay-200']; @endphp
                 @php
                     $iconBg = [
                         'red'    => 'bg-brand-red-100 text-brand-red-500',
@@ -34,8 +35,8 @@
                         'orange' => 'text-brand-orange-500',
                     ][$card['tone']];
                 @endphp
-                <div class="rounded-3xl bg-white p-8 shadow-card ring-1 ring-black/5">
-                    <span class="grid h-14 w-14 place-items-center rounded-2xl {{ $iconBg }}">
+                <div class="reveal {{ $delays[$i] ?? '' }} group rounded-3xl bg-white p-8 shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
+                    <span class="grid h-14 w-14 place-items-center rounded-2xl {{ $iconBg }} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
                         <svg viewBox="0 0 24 24" class="h-7 w-7">{!! $card['icon'] !!}</svg>
                     </span>
                     <h3 class="mt-6 font-display text-2xl font-bold {{ $title }}">{{ $card['title'] }}</h3>

@@ -5,10 +5,10 @@
 
     <div class="relative mx-auto max-w-7xl px-6 lg:px-10">
         <div class="text-center">
-            <h2 class="font-display text-4xl font-bold sm:text-5xl">
+            <h2 class="reveal font-display text-4xl font-bold sm:text-5xl">
                 Stories of <span class="text-brand-orange-300">Hope &amp; Change</span>
             </h2>
-            <p class="mx-auto mt-4 max-w-2xl text-white/70">Real voices from the communities we serve across Bangladesh.</p>
+            <p class="reveal reveal-delay-100 mx-auto mt-4 max-w-2xl text-white/70">Real voices from the communities we serve across Bangladesh.</p>
         </div>
 
         <div class="mt-14 grid gap-6 md:grid-cols-2">
@@ -25,8 +25,9 @@
                     'role'    => 'Farmer, Chittagong Division',
                     'photo'   => 'https://i.pravatar.cc/120?img=68',
                 ],
-            ] as $story)
-                <figure class="rounded-3xl bg-white/10 p-8 backdrop-blur-sm ring-1 ring-white/15">
+            ] as $i => $story)
+                @php $delays = ['', 'reveal-delay-100']; @endphp
+                <figure class="reveal {{ $delays[$i] ?? '' }} group rounded-3xl bg-white/10 p-8 backdrop-blur-sm ring-1 ring-white/15 transition-all duration-300 hover:-translate-y-1 hover:bg-white/15">
                     <svg viewBox="0 0 24 24" fill="currentColor" class="h-8 w-8 text-brand-orange-300">
                         <path d="M7 7h4v4H8c0 2 1 3 3 4v3c-4-1-7-3-7-7V7Zm9 0h4v4h-3c0 2 1 3 3 4v3c-4-1-7-3-7-7V7Z"/>
                     </svg>
@@ -42,4 +43,9 @@
             @endforeach
         </div>
     </div>
+
+    {{-- Divider: burgundy → cream (into Map) --}}
+    <svg viewBox="0 0 1440 90" class="relative mt-16 block w-full text-[#FAF1ED]" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="currentColor" d="M0,60 C360,10 720,80 1080,40 C1260,20 1380,30 1440,55 L1440,90 L0,90 Z"/>
+    </svg>
 </section>

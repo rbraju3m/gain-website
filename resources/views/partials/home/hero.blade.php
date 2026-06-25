@@ -6,24 +6,24 @@
     <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-6 pb-24 pt-32 lg:grid-cols-2 lg:gap-16 lg:px-10 lg:pt-40">
 
         <div>
-            <span class="inline-flex items-center gap-2 rounded-full border border-brand-red-200 bg-white/80 px-4 py-1.5 text-xs font-medium text-brand-red-500">
+            <span class="reveal inline-flex items-center gap-2 rounded-full border border-brand-red-200 bg-white/80 px-4 py-1.5 text-xs font-medium text-brand-red-500">
                 <span class="h-1.5 w-1.5 rounded-full bg-brand-red-500"></span>
                 Transforming Lives Through Nutrition
             </span>
 
-            <h1 class="mt-6 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-brand-ink sm:text-6xl lg:text-7xl">
+            <h1 class="reveal reveal-delay-100 mt-6 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-brand-ink sm:text-6xl lg:text-7xl">
                 Nourishing<br>
                 <span class="text-brand-green-500">Communities</span>,<br>
                 Building <span class="text-brand-red-500">Futures</span>
             </h1>
 
-            <p class="mt-6 max-w-xl text-base leading-relaxed text-brand-muted sm:text-lg">
+            <p class="reveal reveal-delay-200 mt-6 max-w-xl text-base leading-relaxed text-brand-muted sm:text-lg">
                 Empowering communities across Bangladesh with sustainable nutrition
                 programs, agricultural training, and community-driven solutions for
                 lasting food security.
             </p>
 
-            <div class="mt-8 flex flex-wrap items-center gap-3">
+            <div class="reveal reveal-delay-300 mt-8 flex flex-wrap items-center gap-3">
                 <a href="#mission"
                    class="inline-flex items-center gap-2 rounded-full bg-brand-red-500 px-6 py-3 text-sm font-semibold text-white shadow-pill transition hover:bg-brand-red-600">
                     Join Our Mission
@@ -53,14 +53,16 @@
             </dl>
         </div>
 
-        <div class="relative">
-            <div class="overflow-hidden rounded-[2.5rem] shadow-card">
+        <div class="reveal reveal-delay-200 group relative">
+            <div class="img-zoom relative overflow-hidden rounded-[2.5rem] shadow-card">
                 <img
                     src="{{ asset('images/hero-cooking.jpg') }}"
                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=900&q=80'"
                     alt="Community members sharing a meal"
                     class="aspect-[4/5] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5]"
                 >
+                {{-- bottom shading helps the floating "98%" card stand out --}}
+                <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/35 via-black/10 to-transparent"></div>
             </div>
 
             <div class="absolute -bottom-6 left-6 flex items-center gap-3 rounded-2xl bg-white px-5 py-4 shadow-card ring-1 ring-black/5 sm:left-10">

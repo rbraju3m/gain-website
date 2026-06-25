@@ -7,6 +7,13 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo-gain.svg') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -15,10 +22,10 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-brand-cream">
             <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <a href="/" aria-label="{{ config('app.name') }} home">
+                    <x-application-logo class="h-16 w-auto" />
                 </a>
             </div>
 

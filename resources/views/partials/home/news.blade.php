@@ -1,19 +1,19 @@
 {{-- Section 9: Latest News & Events --}}
-<section id="news" class="bg-white py-24">
-    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+<section id="news" class="relative overflow-hidden bg-section-white py-24">
+    <div class="relative mx-auto max-w-7xl px-6 lg:px-10">
 
         <div class="flex flex-wrap items-end justify-between gap-6">
             <div>
-                <h2 class="font-display text-4xl font-bold text-brand-ink sm:text-5xl">
+                <h2 class="reveal font-display text-4xl font-bold text-brand-ink sm:text-5xl">
                     Latest <span class="text-brand-red-500">News &amp; Events</span>
                 </h2>
-                <p class="mt-3 max-w-xl text-brand-muted">
+                <p class="reveal reveal-delay-100 mt-3 max-w-xl text-brand-muted">
                     Stay updated with our latest initiatives, success stories, and community impact.
                 </p>
             </div>
-            <a href="#" class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-red-500 hover:text-brand-red-600">
+            <a href="#" class="reveal reveal-delay-200 group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-red-500 hover:text-brand-red-600">
                 View All News
-                <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+                <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition-transform group-hover:translate-x-1">
                     <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
                 </svg>
             </a>
@@ -45,13 +45,15 @@
                     'img'      => 'images/news-partnership.jpg',
                     'fallback' => 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=800&q=80',
                 ],
-            ] as $post)
-                <article class="overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-soft">
-                    <div class="relative">
+            ] as $i => $post)
+                @php $delays = ['', 'reveal-delay-100', 'reveal-delay-200']; @endphp
+                <article class="reveal {{ $delays[$i] }} group overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
+                    <div class="img-zoom relative">
                         <img src="{{ asset($post['img']) }}"
                              onerror="this.onerror=null; this.src='{{ $post['fallback'] }}'"
                              alt="{{ $post['title'] }}"
                              class="aspect-[16/10] w-full object-cover">
+                        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent"></div>
                         <span class="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-brand-red-500 px-3 py-1 text-xs font-semibold text-white">
                             {{ $post['category'] }}
                         </span>
@@ -65,9 +67,9 @@
                         </div>
                         <h3 class="mt-3 text-lg font-bold leading-snug text-brand-ink">{{ $post['title'] }}</h3>
                         <p class="mt-2 text-sm text-brand-muted">{{ $post['body'] }}</p>
-                        <a href="#" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-red-500 hover:text-brand-red-600">
+                        <a href="#" class="group/btn mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-red-500 hover:text-brand-red-600">
                             Read More
-                            <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+                            <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition-transform group-hover/btn:translate-x-1">
                                 <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
                             </svg>
                         </a>

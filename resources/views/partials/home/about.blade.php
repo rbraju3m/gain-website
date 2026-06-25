@@ -1,9 +1,9 @@
 {{-- Section 3: Building a Healthier Bangladesh --}}
-<section id="about" class="bg-brand-cream py-24">
-    <div class="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16 lg:px-10">
+<section id="about" class="relative overflow-hidden bg-section-cream py-24">
+    <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16 lg:px-10">
 
-        <div class="relative">
-            <div class="overflow-hidden rounded-[2rem] shadow-card">
+        <div class="reveal group relative">
+            <div class="img-zoom overflow-hidden rounded-[2rem] shadow-card">
                 <img
                     src="{{ asset('images/about-farming.jpg') }}"
                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=900&q=80'"
@@ -12,12 +12,13 @@
                 >
             </div>
             <div class="absolute -bottom-6 right-6 rounded-2xl bg-white px-6 py-4 text-center shadow-card ring-1 ring-black/5 sm:right-10">
-                <div class="font-display text-3xl font-bold text-brand-red-500">10+</div>
+                <div class="font-display text-3xl font-bold text-brand-red-500"
+                     data-counter="10" data-counter-suffix="+">0+</div>
                 <div class="text-xs text-brand-muted">Years of Impact</div>
             </div>
         </div>
 
-        <div>
+        <div class="reveal reveal-delay-200">
             <span class="text-xs font-semibold uppercase tracking-[0.18em] text-brand-green-600">About Our Organization</span>
             <h2 class="mt-3 font-display text-4xl font-bold leading-tight text-brand-ink sm:text-5xl">
                 Building a <span class="text-brand-red-500">Healthier</span><br>
@@ -37,13 +38,15 @@
 
             <dl class="mt-8 grid grid-cols-2 gap-x-8 gap-y-6">
                 @foreach ([
-                    ['label' => 'Families Impacted',  'value' => '15,000+', 'tone' => 'red'],
-                    ['label' => 'Districts Reached',  'value' => '52',      'tone' => 'green'],
-                    ['label' => 'Active Programmes', 'value' => '250+',    'tone' => 'red'],
-                    ['label' => 'Success Rate',       'value' => '98%',     'tone' => 'green'],
+                    ['label' => 'Families Impacted', 'counter' => 15000, 'suffix' => '+', 'tone' => 'red'],
+                    ['label' => 'Districts Reached', 'counter' => 52,    'suffix' => '',  'tone' => 'green'],
+                    ['label' => 'Active Programmes', 'counter' => 250,   'suffix' => '+', 'tone' => 'red'],
+                    ['label' => 'Success Rate',      'counter' => 98,    'suffix' => '%', 'tone' => 'green'],
                 ] as $stat)
                     <div>
-                        <dd class="font-display text-3xl font-bold {{ $stat['tone'] === 'red' ? 'text-brand-red-500' : 'text-brand-green-600' }}">{{ $stat['value'] }}</dd>
+                        <dd class="font-display text-3xl font-bold {{ $stat['tone'] === 'red' ? 'text-brand-red-500' : 'text-brand-green-600' }}"
+                            data-counter="{{ $stat['counter'] }}"
+                            data-counter-suffix="{{ $stat['suffix'] }}">0{{ $stat['suffix'] }}</dd>
                         <dt class="mt-1 text-sm text-brand-muted">{{ $stat['label'] }}</dt>
                     </div>
                 @endforeach
