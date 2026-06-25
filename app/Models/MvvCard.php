@@ -2,14 +2,29 @@
 
 namespace App\Models;
 
+use App\Support\HasHomepageCache;
 use App\Support\Icons;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class MvvCard extends Model
 {
-    public const TONES = ['red', 'green', 'orange'];
+    use HasHomepageCache;
+
+    public const TONES     = ['red', 'green', 'orange'];
+    public const CACHE_KEY = 'homepage:mvv';
 
     protected $table = 'mvv_cards';
+
+    public static function homepageCacheKeys(): array
+    {
+        return [self::CACHE_KEY];
+    }
+
+    public static function forHomepage()
+    {
+        return Cache::rememberForever(self::CACHE_KEY, fn () => self::published()->ordered()->get());
+    }
 
     protected $fillable = [
         'title',

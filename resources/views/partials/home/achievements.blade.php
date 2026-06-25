@@ -12,7 +12,7 @@
         </div>
 
         @php
-            $achievements = \App\Models\Achievement::published()->ordered()->get();
+            $achievements = \App\Models\Achievement::forHomepage();
             $delays = ['', 'reveal-delay-100', 'reveal-delay-200', 'reveal-delay-300'];
             $rowToneColor = [
                 'red'    => 'text-brand-red-500',

@@ -2,13 +2,28 @@
 
 namespace App\Models;
 
+use App\Support\HasHomepageCache;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Testimonial extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use HasHomepageCache, InteractsWithMedia;
+
+    public const CACHE_KEY = 'homepage:testimonials';
+
+    public static function homepageCacheKeys(): array
+    {
+        return [self::CACHE_KEY];
+    }
+
+    public static function forHomepage()
+    {
+        return Cache::rememberForever(self::CACHE_KEY,
+            fn () => self::published()->ordered()->with('media')->get());
+    }
 
     protected $fillable = [
         'author_name',

@@ -1,6 +1,6 @@
 {{-- Section 4: Mission / Vision / Values --}}
 @php
-    $mvvCards = \App\Models\MvvCard::published()->ordered()->get();
+    $mvvCards = \App\Models\MvvCard::forHomepage();
     $delays   = ['', 'reveal-delay-100', 'reveal-delay-200', 'reveal-delay-300'];
     $iconBgs  = [
         'red'    => 'bg-brand-red-100 text-brand-red-500',

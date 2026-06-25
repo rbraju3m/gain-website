@@ -2,17 +2,39 @@
 
 namespace App\Models;
 
+use App\Support\HasHomepageCache;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Partner extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use HasHomepageCache, InteractsWithMedia;
 
     public const GROUP_STRATEGIC    = 'strategic';
     public const GROUP_IMPLEMENTING = 'implementing';
+
+    public const CACHE_KEY_STRATEGIC    = 'homepage:partners.strategic';
+    public const CACHE_KEY_IMPLEMENTING = 'homepage:partners.implementing';
+
+    public static function homepageCacheKeys(): array
+    {
+        return [self::CACHE_KEY_STRATEGIC, self::CACHE_KEY_IMPLEMENTING];
+    }
+
+    public static function forHomepageStrategic()
+    {
+        return Cache::rememberForever(self::CACHE_KEY_STRATEGIC,
+            fn () => self::published()->strategic()->ordered()->with('media')->get());
+    }
+
+    public static function forHomepageImplementing()
+    {
+        return Cache::rememberForever(self::CACHE_KEY_IMPLEMENTING,
+            fn () => self::published()->implementing()->ordered()->with('media')->get());
+    }
 
     public const GROUPS = [
         self::GROUP_STRATEGIC    => 'Strategic (static grid)',

@@ -16,7 +16,7 @@
         </div>
 
         @php
-            $programmes = \App\Models\Programme::published()->ordered()->get();
+            $programmes = \App\Models\Programme::forHomepage();
             // Photo fallbacks keyed by the seeded title — used until a media upload exists.
             $fallbacks = [
                 'Community Nutrition Gardens'         => 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=80',

@@ -2,12 +2,27 @@
 
 namespace App\Models;
 
+use App\Support\HasHomepageCache;
 use App\Support\Icons;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class ImpactStat extends Model
 {
+    use HasHomepageCache;
+
     public const TONES = ['red', 'green', 'orange'];
+    public const CACHE_KEY = 'homepage:impact';
+
+    public static function homepageCacheKeys(): array
+    {
+        return [self::CACHE_KEY];
+    }
+
+    public static function forHomepage()
+    {
+        return Cache::rememberForever(self::CACHE_KEY, fn () => self::published()->ordered()->get());
+    }
 
     protected $fillable = [
         'label',

@@ -1,7 +1,7 @@
 {{-- Section 10: Our Partners --}}
 @php
-    $strategicPartners    = \App\Models\Partner::published()->strategic()->ordered()->get();
-    $implementingPartners = \App\Models\Partner::published()->implementing()->ordered()->get();
+    $strategicPartners    = \App\Models\Partner::forHomepageStrategic();
+    $implementingPartners = \App\Models\Partner::forHomepageImplementing();
 @endphp
 
 <section id="partners" class="relative overflow-hidden bg-section-cream-alt py-24">

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\District\DistrictBulkUpdateRequest;
+use App\Models\District;
 use App\Models\Division;
+use Illuminate\Support\Facades\Cache;
 
 class DistrictController extends Controller
 {
@@ -18,11 +20,14 @@ class DistrictController extends Controller
     {
         $activeIds = array_map('intval', $request->validated()['active'] ?? []);
 
-        // Set every district's is_active based on whether its id is in the
-        // posted "active" array. Done in two queries so the operation is
-        // O(2) regardless of how many districts exist.
-        \App\Models\District::query()->whereIn('id', $activeIds)->update(['is_active' => true]);
-        \App\Models\District::query()->whereNotIn('id', $activeIds)->update(['is_active' => false]);
+        // Two query-builder updates: O(2) regardless of district count.
+        // NB: query-builder update() does not fire Eloquent events, so we
+        // bust the map cache by hand here (HasHomepageCache only catches
+        // saved/deleted on individual model instances).
+        District::query()->whereIn('id', $activeIds)->update(['is_active' => true]);
+        District::query()->whereNotIn('id', $activeIds)->update(['is_active' => false]);
+
+        Cache::forget(Division::CACHE_KEY);
 
         return redirect()->route('admin.districts.index')
             ->with('status', count($activeIds) . ' districts marked active.');

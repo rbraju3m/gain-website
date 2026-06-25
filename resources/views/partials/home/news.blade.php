@@ -20,7 +20,7 @@
         </div>
 
         @php
-            $articles = \App\Models\NewsArticle::published()->newest()->take(3)->get();
+            $articles = \App\Models\NewsArticle::forHomepage();
             // Photo fallbacks keyed by title for articles without a media upload yet.
             $fallbacks = [
                 'New Community Garden Initiative Launches in Sylhet Division'  => 'https://images.unsplash.com/photo-1471193945509-9ad0617afabf?w=800&q=80',

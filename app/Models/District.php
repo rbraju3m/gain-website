@@ -2,11 +2,20 @@
 
 namespace App\Models;
 
+use App\Support\HasHomepageCache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class District extends Model
 {
+    use HasHomepageCache;
+
+    /** Districts share the map cache key with Division; flipping is_active busts the same key. */
+    public static function homepageCacheKeys(): array
+    {
+        return [Division::CACHE_KEY];
+    }
+
     protected $fillable = [
         'name',
         'division_id',

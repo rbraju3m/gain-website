@@ -1,45 +1,9 @@
 {{-- Section 8: Bangladesh Map — divisions + active-district coverage --}}
 @php
-    // Load divisions + districts from DB. Each division is keyed by its SVG id
-    // (rongpur/rajshahi/.../chittagong), which the inline SVG <g> elements use.
-    $allDivisions = \App\Models\Division::ordered()->with('districts')->get();
-
-    // Lat/lng → SVG (viewBox 0 0 1550 2149) linear projection,
-    // calibrated against the existing division SVG bounding box.
-    $lngWest  = 88.05; $lngEast  = 92.65;
-    $latNorth = 26.65; $latSouth = 20.55;
-    $usableX  = 1368;  $offsetX  = 50;
-    $usableY  = 2066;  $offsetY  = 78;
-
-    $districts = [];
-    foreach ($allDivisions as $div) {
-        foreach ($div->districts as $d) {
-            $x = ($d->lng - $lngWest) / ($lngEast - $lngWest) * $usableX + $offsetX;
-            $y = ($latNorth - $d->lat) / ($latNorth - $latSouth) * $usableY + $offsetY;
-            $districts[] = [
-                'name'     => $d->name,
-                'division' => $div->key,
-                'x'        => round($x, 1),
-                'y'        => round($y, 1),
-                'active'   => $d->is_active,
-            ];
-        }
-    }
-
-    // Sidebar info keyed by division key, with computed active/total counts.
-    $divisionInfo = [];
-    foreach ($allDivisions as $div) {
-        $total  = $div->districts->count();
-        $active = $div->districts->where('is_active', true)->count();
-        $divisionInfo[$div->key] = [
-            'name'             => $div->name,
-            'families'         => $div->families ?: '—',
-            'programmes'       => $div->programmes,
-            'success'          => $div->success_rate ?: '—',
-            'total_districts'  => $total,
-            'active_districts' => $active,
-        ];
-    }
+    // Pre-computed structure (divisionInfo + districts[] w/ x/y already
+    // projected). forHomepage() is cached forever; saving any Division or
+    // District (including the bulk districts toggle) busts the cache.
+    ['divisionInfo' => $divisionInfo, 'districts' => $districts] = \App\Models\Division::forHomepage();
 @endphp
 
 <section id="map" class="bg-blueprint py-24"

@@ -12,7 +12,7 @@
         </div>
 
         @php
-            $stories = \App\Models\Testimonial::published()->ordered()->get();
+            $stories = \App\Models\Testimonial::forHomepage();
             // Random-looking pravatar fallbacks for stories without uploaded photos.
             $avatarFallbacks = [
                 'Amina Rahman' => 'https://i.pravatar.cc/120?img=47',

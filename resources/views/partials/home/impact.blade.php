@@ -8,7 +8,7 @@
         <p class="reveal reveal-delay-100 mx-auto mt-4 max-w-2xl text-center text-brand-muted">Real numbers, real change. See how we're making a difference in communities nationwide.</p>
 
         @php
-            $stats  = \App\Models\ImpactStat::published()->ordered()->get();
+            $stats  = \App\Models\ImpactStat::forHomepage();
             $delays = ['', 'reveal-delay-100', 'reveal-delay-200', 'reveal-delay-300'];
             $bgPalette = [
                 'red'    => 'bg-brand-red-100 text-brand-red-500',

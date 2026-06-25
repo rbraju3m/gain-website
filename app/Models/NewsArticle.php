@@ -2,14 +2,29 @@
 
 namespace App\Models;
 
+use App\Support\HasHomepageCache;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class NewsArticle extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use HasHomepageCache, InteractsWithMedia;
+
+    public const CACHE_KEY = 'homepage:news';
+
+    public static function homepageCacheKeys(): array
+    {
+        return [self::CACHE_KEY];
+    }
+
+    /** 3 newest published articles for the homepage. Cached forever; busted on save/delete. */
+    public static function forHomepage()
+    {
+        return Cache::rememberForever(self::CACHE_KEY, fn () => self::published()->newest()->with('media')->take(3)->get());
+    }
 
     protected $fillable = [
         'title',
