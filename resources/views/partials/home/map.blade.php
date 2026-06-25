@@ -1,100 +1,45 @@
 {{-- Section 8: Bangladesh Map — divisions + active-district coverage --}}
 @php
-    // Load real Bangladesh district data (64 districts with lat/long)
-    $raw = json_decode(file_get_contents(storage_path('app/bd-districts.json')), true)['districts'];
+    // Load divisions + districts from DB. Each division is keyed by its SVG id
+    // (rongpur/rajshahi/.../chittagong), which the inline SVG <g> elements use.
+    $allDivisions = \App\Models\Division::ordered()->with('districts')->get();
 
-    // division_id (from source data) → division key used in this app
-    $divIdToKey = [
-        '1' => 'barisal',
-        '2' => 'chittagong',
-        '3' => 'dhaka',
-        '4' => 'khulna',
-        '5' => 'rajshahi',
-        '6' => 'rongpur',
-        '7' => 'sylhet',
-        '8' => 'mymensingh',
-    ];
-
-    // Districts where Gain currently has ACTIVE programs.
-    // Replace this array with the real list when known.
-    $activeDistricts = [
-        // Barishal
-        'Barishal', 'Bhola', 'Patuakhali',
-        // Chattogram
-        'Chattogram', "Cox's Bazar", 'Cumilla', 'Noakhali', 'Bandarban',
-        // Dhaka
-        'Dhaka', 'Gazipur', 'Tangail', 'Kishoreganj', 'Faridpur', 'Manikganj',
-        // Khulna
-        'Khulna', 'Jashore', 'Satkhira', 'Bagerhat',
-        // Rajshahi
-        'Rajshahi', 'Bogura', 'Pabna', 'Sirajgonj',
-        // Rangpur
-        'Rangpur', 'Dinajpur', 'Kurigram',
-        // Sylhet
-        'Sylhet', 'Sunamganj', 'Maulvibazar',
-        // Mymensingh
-        'Mymensingh', 'Jamalpur',
-    ];
-
-    // Bangladesh lat/lng → SVG (viewBox 0 0 1550 2149) linear projection,
-    // calibrated against the existing division SVG.
-    $lngWest  = 88.05; $lngEast  = 92.65;  // approximate east/west extent of the country
-    $latNorth = 26.65; $latSouth = 20.55;  // approximate north/south extent
+    // Lat/lng → SVG (viewBox 0 0 1550 2149) linear projection,
+    // calibrated against the existing division SVG bounding box.
+    $lngWest  = 88.05; $lngEast  = 92.65;
+    $latNorth = 26.65; $latSouth = 20.55;
     $usableX  = 1368;  $offsetX  = 50;
     $usableY  = 2066;  $offsetY  = 78;
 
     $districts = [];
-    foreach ($raw as $d) {
-        $divKey = $divIdToKey[$d['division_id']] ?? 'unknown';
-        $lat    = (float) $d['lat'];
-        $lng    = (float) $d['long'];
+    foreach ($allDivisions as $div) {
+        foreach ($div->districts as $d) {
+            $x = ($d->lng - $lngWest) / ($lngEast - $lngWest) * $usableX + $offsetX;
+            $y = ($latNorth - $d->lat) / ($latNorth - $latSouth) * $usableY + $offsetY;
+            $districts[] = [
+                'name'     => $d->name,
+                'division' => $div->key,
+                'x'        => round($x, 1),
+                'y'        => round($y, 1),
+                'active'   => $d->is_active,
+            ];
+        }
+    }
 
-        $x = ($lng - $lngWest) / ($lngEast - $lngWest) * $usableX + $offsetX;
-        $y = ($latNorth - $lat) / ($latNorth - $latSouth) * $usableY + $offsetY;
-
-        $districts[] = [
-            'name'     => $d['name'],
-            'division' => $divKey,
-            'x'        => round($x, 1),
-            'y'        => round($y, 1),
-            'active'   => in_array($d['name'], $activeDistricts, true),
+    // Sidebar info keyed by division key, with computed active/total counts.
+    $divisionInfo = [];
+    foreach ($allDivisions as $div) {
+        $total  = $div->districts->count();
+        $active = $div->districts->where('is_active', true)->count();
+        $divisionInfo[$div->key] = [
+            'name'             => $div->name,
+            'families'         => $div->families ?: '—',
+            'programmes'       => $div->programmes,
+            'success'          => $div->success_rate ?: '—',
+            'total_districts'  => $total,
+            'active_districts' => $active,
         ];
     }
-
-    // Aggregate division-level info
-    $divisionInfo = [
-        'rongpur'    => ['name' => 'Rangpur'],
-        'rajshahi'   => ['name' => 'Rajshahi'],
-        'mymensingh' => ['name' => 'Mymensingh'],
-        'sylhet'     => ['name' => 'Sylhet'],
-        'dhaka'      => ['name' => 'Dhaka'],
-        'khulna'     => ['name' => 'Khulna'],
-        'barisal'    => ['name' => 'Barisal'],
-        'chittagong' => ['name' => 'Chittagong'],
-    ];
-
-    // Per-division demo stats — replace with real numbers later.
-    $divisionStats = [
-        'rongpur'    => ['families' => '1,800+', 'programmes' => 22, 'success' => '96%'],
-        'rajshahi'   => ['families' => '2,400+', 'programmes' => 35, 'success' => '97%'],
-        'mymensingh' => ['families' => '1,500+', 'programmes' => 18, 'success' => '94%'],
-        'sylhet'     => ['families' => '1,900+', 'programmes' => 24, 'success' => '95%'],
-        'dhaka'      => ['families' => '4,200+', 'programmes' => 62, 'success' => '98%'],
-        'khulna'     => ['families' => '2,000+', 'programmes' => 28, 'success' => '96%'],
-        'barisal'    => ['families' => '1,200+', 'programmes' => 19, 'success' => '95%'],
-        'chittagong' => ['families' => '3,100+', 'programmes' => 42, 'success' => '97%'],
-    ];
-
-    foreach ($divisionInfo as $k => &$d) {
-        $inDiv  = array_filter($districts, fn($x) => $x['division'] === $k);
-        $active = array_filter($inDiv,     fn($x) => $x['active']);
-        $d['total_districts']  = count($inDiv);
-        $d['active_districts'] = count($active);
-        $d['families']         = $divisionStats[$k]['families'];
-        $d['programmes']       = $divisionStats[$k]['programmes'];
-        $d['success']          = $divisionStats[$k]['success'];
-    }
-    unset($d);
 @endphp
 
 <section id="map" class="bg-blueprint py-24"

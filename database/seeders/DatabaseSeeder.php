@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             ImpactStatsSeeder::class,
             AchievementsSeeder::class,
             MvvCardsSeeder::class,
+            DivisionsSeeder::class,
+            DistrictsSeeder::class,
         ]);
     }
 }

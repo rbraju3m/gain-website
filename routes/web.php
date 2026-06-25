@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\NewsArticleController as AdminNewsArticleController;
 use App\Http\Controllers\Admin\AchievementController as AdminAchievementController;
+use App\Http\Controllers\Admin\DistrictController as AdminDistrictController;
+use App\Http\Controllers\Admin\DivisionController as AdminDivisionController;
 use App\Http\Controllers\Admin\ImpactStatController as AdminImpactStatController;
 use App\Http\Controllers\Admin\MvvCardController as AdminMvvCardController;
 use App\Http\Controllers\Admin\PartnerController as AdminPartnerController;
@@ -43,6 +45,11 @@ Route::middleware(['auth', 'role:admin'])
         Route::resource('impact', AdminImpactStatController::class)->except(['show']);
         Route::resource('achievements', AdminAchievementController::class)->except(['show']);
         Route::resource('mvv', AdminMvvCardController::class)->except(['show']);
+
+        Route::resource('divisions', AdminDivisionController::class)->only(['index', 'edit', 'update']);
+
+        Route::get('districts',    [AdminDistrictController::class, 'index'])->name('districts.index');
+        Route::patch('districts',  [AdminDistrictController::class, 'updateActive'])->name('districts.update-active');
     });
 
 require __DIR__.'/auth.php';
