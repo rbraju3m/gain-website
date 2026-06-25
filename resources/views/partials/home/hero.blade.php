@@ -8,32 +8,30 @@
         <div>
             <span class="reveal inline-flex items-center gap-2 rounded-full border border-brand-red-200 bg-white/80 px-4 py-1.5 text-xs font-medium text-brand-red-500">
                 <span class="h-1.5 w-1.5 rounded-full bg-brand-red-500"></span>
-                Transforming Lives Through Nutrition
+                {{ setting('hero.badge', 'Transforming Lives Through Nutrition') }}
             </span>
 
             <h1 class="reveal reveal-delay-100 mt-6 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-brand-ink sm:text-6xl lg:text-7xl">
-                Nourishing<br>
-                <span class="text-brand-green-500">Communities</span>,<br>
-                Building <span class="text-brand-red-500">Futures</span>
+                {{ setting('hero.line1', 'Nourishing') }}<br>
+                {{ setting('hero.line2_prefix') }}<span class="text-brand-green-500">{{ setting('hero.line2_accent', 'Communities') }}</span>{{ setting('hero.line2_suffix', ',') }}<br>
+                {{ setting('hero.line3_prefix', 'Building') }} <span class="text-brand-red-500">{{ setting('hero.line3_accent', 'Futures') }}</span>
             </h1>
 
             <p class="reveal reveal-delay-200 mt-6 max-w-xl text-base leading-relaxed text-brand-muted sm:text-lg">
-                Empowering communities across Bangladesh with sustainable nutrition
-                programs, agricultural training, and community-driven solutions for
-                lasting food security.
+                {{ setting('hero.subhead') }}
             </p>
 
             <div class="reveal reveal-delay-300 mt-8 flex flex-wrap items-center gap-3">
-                <a href="#mission"
+                <a href="{{ setting('hero.cta_primary_url', '#mission') }}"
                    class="inline-flex items-center gap-2 rounded-full bg-brand-red-500 px-6 py-3 text-sm font-semibold text-white shadow-pill transition hover:bg-brand-red-600">
-                    Join Our Mission
+                    {{ setting('hero.cta_primary_label', 'Join Our Mission') }}
                     <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
                         <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
                     </svg>
                 </a>
-                <a href="#learn-more"
+                <a href="{{ setting('hero.cta_secondary_url', '#learn-more') }}"
                    class="inline-flex items-center gap-2 rounded-full border border-brand-ink/15 bg-white px-6 py-3 text-sm font-semibold text-brand-ink transition hover:border-brand-ink/30 hover:bg-brand-red-50">
-                    Learn More
+                    {{ setting('hero.cta_secondary_label', 'Learn More') }}
                 </a>
             </div>
 
@@ -54,14 +52,19 @@
         </div>
 
         <div class="reveal reveal-delay-200 group relative">
+            @php
+                $heroImg = setting('hero.image_path')
+                    ? asset('storage/' . setting('hero.image_path'))
+                    : asset('images/hero-cooking.jpg');
+            @endphp
             <div class="img-zoom relative overflow-hidden rounded-[2.5rem] shadow-card">
                 <img
-                    src="{{ asset('images/hero-cooking.jpg') }}"
+                    src="{{ $heroImg }}"
                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=900&q=80'"
-                    alt="Community members sharing a meal"
+                    alt="{{ setting('hero.line1', 'Hero') }}"
                     class="aspect-[4/5] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5]"
                 >
-                {{-- bottom shading helps the floating "98%" card stand out --}}
+                {{-- bottom shading helps the floating success card stand out --}}
                 <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/35 via-black/10 to-transparent"></div>
             </div>
 
@@ -72,8 +75,8 @@
                     </svg>
                 </span>
                 <div>
-                    <div class="text-lg font-bold leading-none text-brand-ink">98%</div>
-                    <div class="text-xs text-brand-muted">Program Success Rate</div>
+                    <div class="text-lg font-bold leading-none text-brand-ink">{{ setting('hero.success_value', '98%') }}</div>
+                    <div class="text-xs text-brand-muted">{{ setting('hero.success_label', 'Program Success Rate') }}</div>
                 </div>
             </div>
         </div>

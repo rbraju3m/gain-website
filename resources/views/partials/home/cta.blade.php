@@ -11,17 +11,16 @@
         </span>
 
         <h2 class="reveal reveal-delay-100 mt-6 font-display text-4xl font-bold leading-tight sm:text-5xl">
-            Join Us in Creating Lasting<br>Change
+            {{ setting('cta.heading_line1', 'Join Us in Creating Lasting') }}<br>{{ setting('cta.heading_line2', 'Change') }}
         </h2>
         <p class="reveal reveal-delay-200 mx-auto mt-4 max-w-2xl text-white/80">
-            Every contribution helps us reach more families, train more farmers, and build stronger,
-            healthier communities across Bangladesh.
+            {{ setting('cta.subhead') }}
         </p>
 
         <div class="reveal reveal-delay-300 mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a href="#partner"
+            <a href="{{ setting('cta.button_url', '#partner') }}"
                class="group inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20">
-                Become a Partner
+                {{ setting('cta.button_label', 'Become a Partner') }}
                 <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition-transform group-hover:translate-x-1">
                     <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
                 </svg>
@@ -30,22 +29,20 @@
 
         {{-- Donation tiers --}}
         <div class="mt-14 grid gap-6 sm:grid-cols-3">
-            @foreach ([
-                ['amount' => '$50',  'desc' => 'Feeds a family for a month',           'tone' => 'red'],
-                ['amount' => '$200', 'desc' => 'Trains a farmer',                       'tone' => 'green'],
-                ['amount' => '$500', 'desc' => 'Establishes a community garden',        'tone' => 'orange'],
-            ] as $i => $tier)
-                @php $delays = ['reveal-delay-100', 'reveal-delay-200', 'reveal-delay-300']; @endphp
-                @php
-                    $color = [
-                        'red'    => 'text-brand-orange-300',
-                        'green'  => 'text-brand-green-300',
-                        'orange' => 'text-brand-orange-300',
-                    ][$tier['tone']];
-                @endphp
-                <div class="reveal {{ $delays[$i] }} rounded-2xl bg-white/10 px-6 py-7 backdrop-blur-sm ring-1 ring-white/15 transition hover:-translate-y-1 hover:bg-white/15">
-                    <div class="font-display text-3xl font-bold {{ $color }}">{{ $tier['amount'] }}</div>
-                    <div class="mt-2 text-sm text-white/80">{{ $tier['desc'] }}</div>
+            @php
+                $tiers = setting('cta.tiers') ?: [];
+                $tonePalette = [
+                    'red'    => 'text-brand-orange-300',
+                    'green'  => 'text-brand-green-300',
+                    'orange' => 'text-brand-orange-300',
+                ];
+                $delays = ['reveal-delay-100', 'reveal-delay-200', 'reveal-delay-300'];
+            @endphp
+            @foreach ($tiers as $i => $tier)
+                @php $color = $tonePalette[$tier['tone'] ?? 'red'] ?? $tonePalette['red']; @endphp
+                <div class="reveal {{ $delays[$i] ?? '' }} rounded-2xl bg-white/10 px-6 py-7 backdrop-blur-sm ring-1 ring-white/15 transition hover:-translate-y-1 hover:bg-white/15">
+                    <div class="font-display text-3xl font-bold {{ $color }}">{{ $tier['amount'] ?? '' }}</div>
+                    <div class="mt-2 text-sm text-white/80">{{ $tier['desc'] ?? '' }}</div>
                 </div>
             @endforeach
         </div>
