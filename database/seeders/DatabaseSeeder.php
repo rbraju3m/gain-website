@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             ProgrammesSeeder::class,
             NewsArticlesSeeder::class,
             PartnersSeeder::class,
+            TestimonialsSeeder::class,
         ]);
     }
 }

@@ -11,32 +11,40 @@
             <p class="reveal reveal-delay-100 mx-auto mt-4 max-w-2xl text-white/70">Real voices from the communities we serve across Bangladesh.</p>
         </div>
 
+        @php
+            $stories = \App\Models\Testimonial::published()->ordered()->get();
+            // Random-looking pravatar fallbacks for stories without uploaded photos.
+            $avatarFallbacks = [
+                'Amina Rahman' => 'https://i.pravatar.cc/120?img=47',
+                'Karim Ahmed'  => 'https://i.pravatar.cc/120?img=68',
+            ];
+            $delays = ['', 'reveal-delay-100', 'reveal-delay-200', 'reveal-delay-300'];
+        @endphp
+
         <div class="mt-14 grid gap-6 md:grid-cols-2">
-            @foreach ([
-                [
-                    'quote'   => 'This program transformed our family\'s life. Now we grow our own vegetables and my children are healthier than ever. The training we received gave us hope and a sustainable future.',
-                    'name'    => 'Amina Rahman',
-                    'role'    => 'Programme Participant, Dhaka Division',
-                    'photo'   => 'https://i.pravatar.cc/120?img=47',
-                ],
-                [
-                    'quote'   => 'The agricultural training helped me improve crop yields by 60%. I can now support my family better and contribute to our community\'s food security. Thank you for believing in us.',
-                    'name'    => 'Karim Ahmed',
-                    'role'    => 'Farmer, Chittagong Division',
-                    'photo'   => 'https://i.pravatar.cc/120?img=68',
-                ],
-            ] as $i => $story)
-                @php $delays = ['', 'reveal-delay-100']; @endphp
-                <figure class="reveal {{ $delays[$i] ?? '' }} group rounded-3xl bg-white/10 p-8 backdrop-blur-sm ring-1 ring-white/15 transition-all duration-300 hover:-translate-y-1 hover:bg-white/15">
+            @foreach ($stories as $i => $story)
+                @php
+                    $photo = $story->photoUrl() ?: ($avatarFallbacks[$story->author_name] ?? null);
+                    $initial = Str::of($story->author_name)->substr(0, 1)->upper();
+                @endphp
+                <figure class="reveal {{ $delays[$i % count($delays)] }} group rounded-3xl bg-white/10 p-8 backdrop-blur-sm ring-1 ring-white/15 transition-all duration-300 hover:-translate-y-1 hover:bg-white/15">
                     <svg viewBox="0 0 24 24" fill="currentColor" class="h-8 w-8 text-brand-orange-300">
                         <path d="M7 7h4v4H8c0 2 1 3 3 4v3c-4-1-7-3-7-7V7Zm9 0h4v4h-3c0 2 1 3 3 4v3c-4-1-7-3-7-7V7Z"/>
                     </svg>
-                    <blockquote class="mt-5 text-lg leading-relaxed text-white/90">{{ $story['quote'] }}</blockquote>
+                    <blockquote class="mt-5 text-lg leading-relaxed text-white/90">{{ $story->quote }}</blockquote>
                     <figcaption class="mt-6 flex items-center gap-4">
-                        <img src="{{ $story['photo'] }}" alt="{{ $story['name'] }}" class="h-12 w-12 rounded-full object-cover ring-2 ring-white/30">
+                        @if ($photo)
+                            <img src="{{ $photo }}" alt="{{ $story->author_name }}" class="h-12 w-12 rounded-full object-cover ring-2 ring-white/30">
+                        @else
+                            <div class="grid h-12 w-12 place-items-center rounded-full bg-white/20 font-bold text-white ring-2 ring-white/30">
+                                {{ $initial }}
+                            </div>
+                        @endif
                         <div>
-                            <div class="font-semibold">{{ $story['name'] }}</div>
-                            <div class="text-sm text-white/60">{{ $story['role'] }}</div>
+                            <div class="font-semibold">{{ $story->author_name }}</div>
+                            @if ($story->author_role)
+                                <div class="text-sm text-white/60">{{ $story->author_role }}</div>
+                            @endif
                         </div>
                     </figcaption>
                 </figure>
