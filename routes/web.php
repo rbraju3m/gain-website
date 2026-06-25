@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\ProgrammeController as AdminProgrammeController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,8 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::get('settings',    [AdminSettingsController::class, 'edit'])->name('settings.edit');
         Route::patch('settings',  [AdminSettingsController::class, 'update'])->name('settings.update');
+
+        Route::resource('programmes', AdminProgrammeController::class)->except(['show']);
     });
 
 require __DIR__.'/auth.php';
