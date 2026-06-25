@@ -1,20 +1,7 @@
 {{-- Section 10: Our Partners --}}
 @php
-    // Strategic partners (Row 1: static grid)
-    $strategicPartners = [
-        ['name' => 'World Food Programme', 'slug' => 'wfp'],
-        ['name' => 'UNICEF Bangladesh',    'slug' => 'unicef'],
-        ['name' => 'BRAC',                 'slug' => 'brac'],
-        ['name' => 'FAO Bangladesh',       'slug' => 'fao'],
-    ];
-
-    // Implementing partners (Row 2: horizontal scrolling marquee)
-    $implementingPartners = [
-        ['name' => 'Save the Children',         'slug' => 'savethechildren'],
-        ['name' => 'ActionAid',                 'slug' => 'actionaid'],
-        ['name' => 'Ministry of Health',        'slug' => 'moh'],
-        ['name' => 'Local Government Division', 'slug' => 'lgd'],
-    ];
+    $strategicPartners    = \App\Models\Partner::published()->strategic()->ordered()->get();
+    $implementingPartners = \App\Models\Partner::published()->implementing()->ordered()->get();
 @endphp
 
 <section id="partners" class="relative overflow-hidden bg-section-cream-alt py-24">
@@ -33,37 +20,45 @@
         </div>
 
         {{-- Row 1: Strategic partners — static grid --}}
-        <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            @foreach ($strategicPartners as $i => $p)
+        @if ($strategicPartners->isNotEmpty())
+            <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 @php $delays = ['', 'reveal-delay-100', 'reveal-delay-200', 'reveal-delay-300']; @endphp
-                <div class="reveal {{ $delays[$i] ?? '' }} group flex h-32 items-center justify-center rounded-2xl bg-white p-5 shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
-                    <img
-                        src="{{ asset('images/partners/' . $p['slug'] . '.svg') }}"
-                        alt="{{ $p['name'] }}"
-                        class="max-h-full max-w-full object-contain transition group-hover:scale-105"
-                    >
-                </div>
-            @endforeach
-        </div>
-
-        {{-- Row 2: Implementing partners — horizontal scrolling marquee --}}
-        <div class="reveal reveal-delay-200 mt-8 group relative overflow-hidden">
-            {{-- Fade edges --}}
-            <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-brand-cream to-transparent"></div>
-            <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-brand-cream to-transparent"></div>
-
-            <div class="marquee-track flex w-max gap-6">
-                @foreach (array_merge($implementingPartners, $implementingPartners, $implementingPartners) as $p)
-                    <div class="flex h-32 w-72 shrink-0 items-center justify-center rounded-2xl bg-white p-5 shadow-card ring-1 ring-black/5">
-                        <img
-                            src="{{ asset('images/partners/' . $p['slug'] . '.svg') }}"
-                            alt="{{ $p['name'] }}"
-                            class="max-h-full max-w-full object-contain"
-                        >
-                    </div>
+                @foreach ($strategicPartners as $i => $p)
+                    @php $logo = $p->logoUrl(); @endphp
+                    @php $tag  = $p->url ? 'a' : 'div'; @endphp
+                    <{{ $tag }} @if ($p->url) href="{{ $p->url }}" target="_blank" rel="noopener" @endif
+                        class="reveal {{ $delays[$i % count($delays)] }} group flex h-32 items-center justify-center rounded-2xl bg-white p-5 shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
+                        @if ($logo)
+                            <img src="{{ $logo }}" alt="{{ $p->name }}" class="max-h-full max-w-full object-contain transition group-hover:scale-105">
+                        @else
+                            <span class="text-sm font-semibold text-brand-ink">{{ $p->name }}</span>
+                        @endif
+                    </{{ $tag }}>
                 @endforeach
             </div>
-        </div>
+        @endif
+
+        {{-- Row 2: Implementing partners — horizontal scrolling marquee --}}
+        @if ($implementingPartners->isNotEmpty())
+            <div class="reveal reveal-delay-200 mt-8 group relative overflow-hidden">
+                {{-- Fade edges --}}
+                <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-brand-cream to-transparent"></div>
+                <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-brand-cream to-transparent"></div>
+
+                <div class="marquee-track flex w-max gap-6">
+                    @foreach (collect()->range(1, 3)->flatMap(fn () => $implementingPartners) as $p)
+                        @php $logo = $p->logoUrl(); @endphp
+                        <div class="flex h-32 w-72 shrink-0 items-center justify-center rounded-2xl bg-white p-5 shadow-card ring-1 ring-black/5">
+                            @if ($logo)
+                                <img src="{{ $logo }}" alt="{{ $p->name }}" class="max-h-full max-w-full object-contain">
+                            @else
+                                <span class="text-sm font-semibold text-brand-ink">{{ $p->name }}</span>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
     </div>
 
     {{-- Divider: cream → burgundy (into CTA) --}}

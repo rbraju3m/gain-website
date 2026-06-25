@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             SiteSettingsSeeder::class,
             ProgrammesSeeder::class,
             NewsArticlesSeeder::class,
+            PartnersSeeder::class,
         ]);
     }
 }

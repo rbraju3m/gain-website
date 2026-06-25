@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\NewsArticleController as AdminNewsArticleController;
+use App\Http\Controllers\Admin\PartnerController as AdminPartnerController;
 use App\Http\Controllers\Admin\ProgrammeController as AdminProgrammeController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\ProfileController;
@@ -33,6 +34,7 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::resource('programmes', AdminProgrammeController::class)->except(['show']);
         Route::resource('news', AdminNewsArticleController::class)->except(['show']);
+        Route::resource('partners', AdminPartnerController::class)->except(['show']);
     });
 
 require __DIR__.'/auth.php';
