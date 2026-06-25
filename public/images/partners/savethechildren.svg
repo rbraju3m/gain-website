@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 90" fill="none">
+  <!-- Mark: red square + star (Save the Children-style) -->
+  <rect x="14" y="17" width="56" height="56" rx="6" fill="#E03C31"/>
+  <path d="M42 25 L46 38 L60 38 L49 46 L53 60 L42 52 L31 60 L35 46 L24 38 L38 38 Z" fill="#fff"/>
+  <!-- Wordmark -->
+  <text x="85" y="40" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="16" fill="#E03C31" letter-spacing="0.4">Save the Children</text>
+  <line x1="85" y1="48" x2="195" y2="48" stroke="#E03C31" stroke-width="1.5"/>
+  <text x="85" y="65" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="9" fill="#1F1B22" letter-spacing="0.8">EVERY CHILD DESERVES</text>
+  <text x="85" y="76" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="9" fill="#1F1B22" letter-spacing="0.8">A FUTURE</text>
+</svg>

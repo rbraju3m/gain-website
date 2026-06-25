@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 90" fill="none">
+  <!-- Mark: government building -->
+  <circle cx="42" cy="45" r="30" fill="#1F4D8C"/>
+  <path d="M22 60 H62 V63 H22 Z" fill="#fff"/>
+  <path d="M26 60 V40 H30 V60 Z M38 60 V40 H42 V60 Z M50 60 V40 H54 V60 Z" fill="#fff"/>
+  <path d="M20 40 L42 28 L64 40 Z" fill="#fff"/>
+  <circle cx="42" cy="22" r="3" fill="#FFA268"/>
+  <!-- Wordmark -->
+  <text x="85" y="36" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="14" fill="#1F4D8C" letter-spacing="0.3">Local Government</text>
+  <text x="85" y="52" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="14" fill="#1F4D8C" letter-spacing="0.3">Division</text>
+  <text x="85" y="70" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="9" fill="#1F1B22" letter-spacing="0.8">GOVERNMENT OF BANGLADESH</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 90" fill="none">
+  <!-- Mark: wheat sheaf -->
+  <circle cx="42" cy="45" r="30" fill="#7BB04F"/>
+  <path d="M42 28 L42 64" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M42 32 Q34 35 33 42 M42 32 Q50 35 51 42 M42 42 Q33 44 32 50 M42 42 Q51 44 52 50 M42 52 Q34 53 33 58 M42 52 Q50 53 51 58" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+  <!-- Wordmark -->
+  <text x="85" y="42" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="22" fill="#7BB04F" letter-spacing="1">FAO</text>
+  <text x="85" y="60" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="10" fill="#1F1B22" letter-spacing="0.8">FOOD &amp; AGRICULTURE</text>
+  <text x="85" y="73" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="10" fill="#1F1B22" letter-spacing="0.8">ORGANIZATION</text>
+</svg>
