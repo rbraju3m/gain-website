@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             SiteSettingsSeeder::class,
             ProgrammesSeeder::class,
+            NewsArticlesSeeder::class,
         ]);
     }
 }
