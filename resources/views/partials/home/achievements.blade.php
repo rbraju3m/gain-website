@@ -11,66 +11,36 @@
             <p class="reveal reveal-delay-200 mt-4 max-w-2xl text-brand-muted">Transforming lives through evidence-based nutrition interventions.</p>
         </div>
 
-        <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            @foreach ([
-                [
-                    'title' => 'Workers Empowered',
-                    'icon'  => '<path d="M7 8a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-4 9a4 4 0 0 1 8 0v1H3v-1Zm10 0a4 4 0 0 1 8 0v1h-8v-1Zm3-9a3 3 0 1 1 6 0 3 3 0 0 1-6 0Z"/>',
-                    'rows'  => [
-                        ['Total Reached',         '71,000+', 'red'],
-                        ['Actively Participating','45,000+', 'green'],
-                    ],
-                ],
-                [
-                    'title' => 'Programme Components',
-                    'icon'  => '<path d="M4 4h6v16H4zM14 4h6v8h-6zM14 14h6v6h-6z"/>',
-                    'rows'  => [
-                        ['TVET Education',  '400', 'red'],
-                        ['IEC Courses',     '10',  'green'],
-                        ['Fair Price Shops','12',  'orange'],
-                    ],
-                ],
-                [
-                    'title' => 'Factory Partnerships',
-                    'icon'  => '<path d="M3 21V8l5 3V8l5 3V8l5 3v10H3Zm4-3h2v-3H7v3Zm5 0h2v-3h-2v3Zm5 0h2v-3h-2v3Z"/>',
-                    'rows'  => [
-                        ['On-Boarded',  '5',  'red'],
-                        ['Surveyed',    '0',  'green'],
-                        ['Target 2025', '13', 'orange'],
-                    ],
-                ],
-                [
-                    'title' => 'Impact Metrics',
-                    'icon'  => '<path d="M3 17 9 11l4 4 8-8M14 7h7v7"/>',
-                    'rows'  => [
-                        ['Productivity Increased', '15%', 'red'],
-                        ['Health Improvement',     '—',   'green'],
-                        ['Income Increase',        '—',   'orange'],
-                    ],
-                ],
-            ] as $i => $card)
-                @php $delays = ['', 'reveal-delay-100', 'reveal-delay-200', 'reveal-delay-300']; @endphp
-                <div class="reveal {{ $delays[$i] }} group rounded-3xl bg-white p-7 shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
-                    <span class="grid h-12 w-12 place-items-center rounded-2xl bg-brand-red-100 text-brand-red-500 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">{!! $card['icon'] !!}</svg>
-                    </span>
-                    <h3 class="mt-5 text-lg font-bold text-brand-ink">{{ $card['title'] }}</h3>
+        @php
+            $achievements = \App\Models\Achievement::published()->ordered()->get();
+            $delays = ['', 'reveal-delay-100', 'reveal-delay-200', 'reveal-delay-300'];
+            $rowToneColor = [
+                'red'    => 'text-brand-red-500',
+                'green'  => 'text-brand-green-600',
+                'orange' => 'text-brand-orange-500',
+            ];
+        @endphp
 
-                    <dl class="mt-5 space-y-3 border-t border-brand-cream pt-4">
-                        @foreach ($card['rows'] as [$label, $value, $tone])
-                            @php
-                                $valColor = [
-                                    'red'    => 'text-brand-red-500',
-                                    'green'  => 'text-brand-green-600',
-                                    'orange' => 'text-brand-orange-500',
-                                ][$tone];
-                            @endphp
-                            <div class="flex items-center justify-between text-sm">
-                                <dt class="text-brand-muted">{{ $label }}</dt>
-                                <dd class="font-bold {{ $valColor }}">{{ $value }}</dd>
-                            </div>
-                        @endforeach
-                    </dl>
+        <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            @foreach ($achievements as $i => $card)
+                <div class="reveal {{ $delays[$i % count($delays)] }} group rounded-3xl bg-white p-7 shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
+                    @if ($svg = $card->iconSvg())
+                        <span class="grid h-12 w-12 place-items-center rounded-2xl bg-brand-red-100 text-brand-red-500 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                            <svg viewBox="0 0 24 24" class="h-6 w-6">{!! $svg !!}</svg>
+                        </span>
+                    @endif
+                    <h3 class="mt-5 text-lg font-bold text-brand-ink">{{ $card->title }}</h3>
+
+                    @if ($card->visibleRows())
+                        <dl class="mt-5 space-y-3 border-t border-brand-cream pt-4">
+                            @foreach ($card->visibleRows() as $row)
+                                <div class="flex items-center justify-between text-sm">
+                                    <dt class="text-brand-muted">{{ $row['label'] }}</dt>
+                                    <dd class="font-bold {{ $rowToneColor[$row['tone'] ?? 'red'] ?? $rowToneColor['red'] }}">{{ $row['value'] ?: '—' }}</dd>
+                                </div>
+                            @endforeach
+                        </dl>
+                    @endif
                 </div>
             @endforeach
         </div>

@@ -15,6 +15,9 @@ class DatabaseSeeder extends Seeder
             NewsArticlesSeeder::class,
             PartnersSeeder::class,
             TestimonialsSeeder::class,
+            ImpactStatsSeeder::class,
+            AchievementsSeeder::class,
+            MvvCardsSeeder::class,
         ]);
     }
 }

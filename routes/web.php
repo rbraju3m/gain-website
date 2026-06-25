@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\NewsArticleController as AdminNewsArticleController;
+use App\Http\Controllers\Admin\AchievementController as AdminAchievementController;
+use App\Http\Controllers\Admin\ImpactStatController as AdminImpactStatController;
+use App\Http\Controllers\Admin\MvvCardController as AdminMvvCardController;
 use App\Http\Controllers\Admin\PartnerController as AdminPartnerController;
 use App\Http\Controllers\Admin\ProgrammeController as AdminProgrammeController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
@@ -37,6 +40,9 @@ Route::middleware(['auth', 'role:admin'])
         Route::resource('news', AdminNewsArticleController::class)->except(['show']);
         Route::resource('partners', AdminPartnerController::class)->except(['show']);
         Route::resource('testimonials', AdminTestimonialController::class)->except(['show']);
+        Route::resource('impact', AdminImpactStatController::class)->except(['show']);
+        Route::resource('achievements', AdminAchievementController::class)->except(['show']);
+        Route::resource('mvv', AdminMvvCardController::class)->except(['show']);
     });
 
 require __DIR__.'/auth.php';
