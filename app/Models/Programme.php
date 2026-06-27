@@ -20,10 +20,10 @@ class Programme extends Model implements HasMedia
         return [self::CACHE_KEY];
     }
 
-    /** Published programmes ordered for the homepage card grid. Cached forever; busted on save/delete. */
+    /** Up to 4 published programmes for the homepage card grid. Cached forever; busted on save/delete. */
     public static function forHomepage()
     {
-        return Cache::rememberForever(self::CACHE_KEY, fn () => self::published()->ordered()->with('media')->get());
+        return Cache::rememberForever(self::CACHE_KEY, fn () => self::published()->ordered()->with('media')->take(4)->get());
     }
 
     public function getRouteKeyName(): string

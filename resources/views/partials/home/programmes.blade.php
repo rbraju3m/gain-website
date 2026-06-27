@@ -13,6 +13,12 @@
             <p class="reveal reveal-delay-100 mx-auto mt-4 max-w-2xl text-brand-muted">
                 Comprehensive initiatives designed to create sustainable change in nutrition and food security.
             </p>
+            <a href="{{ route('programmes.index') }}" class="reveal reveal-delay-200 mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-red-500 hover:text-brand-red-600">
+                View all programmes
+                <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+                    <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
+                </svg>
+            </a>
         </div>
 
         @php
@@ -64,8 +70,9 @@
         </div>
     </div>
 
-    {{-- Divider: white → burgundy (into Stories) --}}
-    <svg viewBox="0 0 1440 90" class="relative block w-full text-[#9C2245]" preserveAspectRatio="none" aria-hidden="true">
+    {{-- Divider: white → burgundy (into Stories). Anchored to the section's bottom
+         edge so it meets the Stories burgundy with no white gap from the py-24. --}}
+    <svg viewBox="0 0 1440 90" class="absolute inset-x-0 bottom-0 block w-full text-[#9C2245]" preserveAspectRatio="none" aria-hidden="true">
         <path fill="currentColor" d="M0,30 C360,90 720,0 1080,40 C1260,60 1380,75 1440,55 L1440,90 L0,90 Z"/>
     </svg>
 </section>

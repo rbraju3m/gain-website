@@ -24,7 +24,9 @@ Route::get('/', function () {
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+Route::get('/programmes',                  [ProgrammeController::class, 'index'])->name('programmes.index');
 Route::get('/programmes/{programme:slug}', [ProgrammeController::class, 'show'])->name('programmes.show');
+Route::get('/news',                        [NewsArticleController::class, 'index'])->name('news.index');
 Route::get('/news/{article:slug}',         [NewsArticleController::class, 'show'])->name('news.show');
 
 Route::get('/dashboard', function () {

@@ -26,11 +26,11 @@
         <div>
             <h4 class="text-sm font-semibold uppercase tracking-wider text-white/90">Quick Links</h4>
             <ul class="mt-4 space-y-2 text-sm text-white/70">
-                <li><a href="#about"     class="hover:text-white">About Us</a></li>
-                <li><a href="#programmes" class="hover:text-white">Our Programmes</a></li>
-                <li><a href="#impact"    class="hover:text-white">Get Involved</a></li>
-                <li><a href="#news"      class="hover:text-white">News & Events</a></li>
-                <li><a href="#stories"   class="hover:text-white">Annual Reports</a></li>
+                <li><a href="{{ url('/#about') }}"     class="hover:text-white">About Us</a></li>
+                <li><a href="{{ route('programmes.index') }}" class="hover:text-white">Our Programmes</a></li>
+                <li><a href="{{ url('/#impact') }}"    class="hover:text-white">Get Involved</a></li>
+                <li><a href="{{ route('news.index') }}"      class="hover:text-white">News &amp; Events</a></li>
+                <li><a href="{{ url('/#stories') }}"   class="hover:text-white">Annual Reports</a></li>
             </ul>
         </div>
 

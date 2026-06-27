@@ -52,8 +52,9 @@
         </div>
     </div>
 
-    {{-- Divider: burgundy → cream (into Map) --}}
-    <svg viewBox="0 0 1440 90" class="relative mt-16 block w-full text-[#FAF1ED]" preserveAspectRatio="none" aria-hidden="true">
+    {{-- Divider: burgundy → cream (into Map). Anchored to the section's bottom
+         edge so it meets the Map cream with no burgundy gap from the py-24. --}}
+    <svg viewBox="0 0 1440 90" class="absolute inset-x-0 bottom-0 block w-full text-[#FAF1ED]" preserveAspectRatio="none" aria-hidden="true">
         <path fill="currentColor" d="M0,60 C360,10 720,80 1080,40 C1260,20 1380,30 1440,55 L1440,90 L0,90 Z"/>
     </svg>
 </section>

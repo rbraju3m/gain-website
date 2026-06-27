@@ -290,6 +290,29 @@
     }
     .rte-wrap .ql-editor { padding: 1rem 1.25rem; min-height: 200px; }
 
+    /* Header nav links — center-out red underline on hover, plus subtle color shift */
+    .nav-link {
+        position: relative;
+        display: inline-block;
+        padding: 0.5rem 0.85rem;
+        transition: color 0.2s ease;
+    }
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 0.85rem; right: 0.85rem; bottom: 0.35rem;
+        height: 2px;
+        background: #9C2245;
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-link:hover { color: #9C2245; }
+    .nav-link:hover::after { transform: scaleX(1); }
+    @media (prefers-reduced-motion: reduce) {
+        .nav-link::after { transition: none; }
+    }
+
     /* Fixed scroll-progress bar — width driven by --scroll-progress (0–1) from app.js */
     .scroll-progress {
         position: fixed;
