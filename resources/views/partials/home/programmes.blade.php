@@ -50,7 +50,7 @@
                     <div class="p-7">
                         <h3 class="font-display text-2xl font-bold text-brand-red-500">{{ $card->title }}</h3>
                         @if ($card->body)
-                            <p class="mt-3 text-brand-muted">{{ $card->body }}</p>
+                            <p class="mt-3 text-brand-muted">{{ Str::limit(strip_tags($card->body), 180) }}</p>
                         @endif
                         <a href="{{ $card->url ?: '#' }}" class="group/btn mt-5 inline-flex items-center gap-1.5 rounded-full bg-brand-cream px-5 py-2 text-sm font-semibold text-brand-red-500 transition hover:bg-brand-red-100">
                             Learn More

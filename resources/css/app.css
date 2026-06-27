@@ -234,6 +234,62 @@
         .btn-shimmer::after { display: none; }
     }
 
+    /* ─────────────────────────────────────────────────────────────────────────
+     *  .prose-content — minimal typography for Quill-authored Programme + News
+     *  bodies on public detail pages. Quill outputs <h2>/<h3>, <p>, <ul>/<ol>,
+     *  <blockquote>, <a>, <strong>, <em>, <u>.
+     * ───────────────────────────────────────────────────────────────────────── */
+    .prose-content { color: #1F1B22; font-size: 1.05rem; line-height: 1.75; }
+    .prose-content > * + * { margin-top: 1.1em; }
+    .prose-content h2 {
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 2rem; line-height: 1.2; font-weight: 700;
+        color: #1F1B22; margin-top: 2em;
+    }
+    .prose-content h3 {
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.45rem; line-height: 1.25; font-weight: 700;
+        color: #1F1B22; margin-top: 1.6em;
+    }
+    .prose-content h4 {
+        font-weight: 700; font-size: 1.15rem; margin-top: 1.4em;
+    }
+    .prose-content p { color: #4B454F; }
+    .prose-content a {
+        color: #9C2245; text-decoration: underline;
+        text-decoration-thickness: 1.5px; text-underline-offset: 3px;
+    }
+    .prose-content a:hover { color: #7c1a37; }
+    .prose-content strong { color: #1F1B22; font-weight: 700; }
+    .prose-content ul, .prose-content ol {
+        padding-left: 1.4em;
+    }
+    .prose-content ul { list-style: disc; }
+    .prose-content ol { list-style: decimal; }
+    .prose-content li + li { margin-top: 0.35em; }
+    .prose-content blockquote {
+        border-left: 4px solid #9C2245;
+        background: #FAF1ED;
+        padding: 1rem 1.25rem;
+        font-style: italic;
+        color: #1F1B22;
+        border-radius: 0 0.75rem 0.75rem 0;
+    }
+
+    /* Quill editor frame inside admin forms */
+    .rte-wrap .ql-toolbar.ql-snow {
+        border: 0;
+        border-bottom: 1px solid #E2E8F0;
+        border-radius: 0.5rem 0.5rem 0 0;
+        background: #F8FAFC;
+    }
+    .rte-wrap .ql-container.ql-snow {
+        border: 0;
+        font-family: inherit;
+        font-size: 0.95rem;
+    }
+    .rte-wrap .ql-editor { padding: 1rem 1.25rem; min-height: 200px; }
+
     /* Fixed scroll-progress bar — width driven by --scroll-progress (0–1) from app.js */
     .scroll-progress {
         position: fixed;

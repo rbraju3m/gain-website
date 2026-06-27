@@ -9,6 +9,9 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo-gain.svg') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
 
+    {{-- Quill rich-text editor (admin only) --}}
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased">
@@ -106,5 +109,46 @@
         </main>
     </div>
 </div>
+
+{{-- Quill init: every <textarea data-rte> becomes a rich-text editor.
+     The original textarea is hidden + kept in the DOM so its `name` is
+     still submitted; Quill writes back the HTML on `text-change`. --}}
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('textarea[data-rte]').forEach(function (textarea) {
+            const wrap = document.createElement('div');
+            wrap.className = 'rte-wrap rounded-lg border border-slate-200 bg-white shadow-sm';
+            const editor = document.createElement('div');
+            editor.className = 'rte-editor';
+            editor.style.minHeight = (textarea.rows ? (textarea.rows * 24) : 200) + 'px';
+            editor.innerHTML = textarea.value || '';
+            textarea.parentNode.insertBefore(wrap, textarea);
+            wrap.appendChild(editor);
+            textarea.style.display = 'none';
+
+            const quill = new Quill(editor, {
+                theme: 'snow',
+                placeholder: textarea.placeholder || 'Write something …',
+                modules: {
+                    toolbar: [
+                        [{ header: [2, 3, 4, false] }],
+                        ['bold', 'italic', 'underline'],
+                        [{ list: 'ordered' }, { list: 'bullet' }],
+                        ['blockquote', 'link'],
+                        ['clean'],
+                    ],
+                },
+            });
+
+            const sync = function () {
+                const html = quill.getText().trim().length ? quill.root.innerHTML : '';
+                textarea.value = html;
+            };
+            quill.on('text-change', sync);
+            textarea.form && textarea.form.addEventListener('submit', sync);
+        });
+    });
+</script>
 </body>
 </html>

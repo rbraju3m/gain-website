@@ -41,9 +41,10 @@
 
             <div class="md:col-span-2">
                 <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500">Body</label>
-                <textarea name="body" rows="10"
-                          class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-brand-red-500 focus:outline-none focus:ring-1 focus:ring-brand-red-500">{{ old('body', $article->body) }}</textarea>
-                <p class="mt-1 text-xs text-slate-400">Full article text. Used by the future single-article page; safe to leave blank for now.</p>
+                <div class="mt-2">
+                    <textarea name="body" data-rte rows="12">{{ old('body', $article->body) }}</textarea>
+                </div>
+                <p class="mt-1 text-xs text-slate-400">Full article body. Rendered on the public news detail page.</p>
             </div>
         </div>
 
