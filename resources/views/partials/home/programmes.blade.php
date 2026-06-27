@@ -8,7 +8,7 @@
 
         <div class="text-center">
             <h2 class="reveal font-display text-4xl font-bold text-brand-ink sm:text-5xl">
-                Our <span class="text-brand-red-500">Programmes</span>
+                Our <span class="draw-underline-red text-brand-red-500">Programmes</span>
             </h2>
             <p class="reveal reveal-delay-100 mx-auto mt-4 max-w-2xl text-brand-muted">
                 Comprehensive initiatives designed to create sustainable change in nutrition and food security.
@@ -32,7 +32,7 @@
                 @php
                     $imgSrc = $card->imageUrl() ?: ($fallbacks[$card->title] ?? null);
                 @endphp
-                <article class="reveal {{ $delays[$i % count($delays)] }} group overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
+                <article class="card-hover reveal {{ $delays[$i % count($delays)] }} group overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
                     <div class="img-zoom relative">
                         @if ($imgSrc)
                             <img src="{{ $imgSrc }}" alt="{{ $card->title }}" class="aspect-[16/9] w-full object-cover">

@@ -35,7 +35,7 @@
                 Where We Work
             </span>
             <h2 class="reveal reveal-delay-100 mt-5 font-display text-4xl font-bold text-brand-ink sm:text-5xl">
-                Our Reach Across <span class="text-brand-green-600">Bangladesh</span>
+                Our Reach Across <span class="draw-underline-green text-brand-green-600">Bangladesh</span>
             </h2>
             <p class="reveal reveal-delay-200 mx-auto mt-4 max-w-2xl text-brand-muted">
                 Hover or tap a division to see impact. Filled dots mark districts with active programmes.

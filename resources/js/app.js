@@ -67,4 +67,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.4 });
 
     document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
+
+    // 3. Scroll-driven polish: progress bar + hero image parallax.
+    //    Single rAF-throttled scroll handler; no-ops under reduced motion.
+    if (!reduceMotion) {
+        const progressEl = document.querySelector('[data-scroll-progress]');
+        const heroEl     = document.querySelector('[data-hero-parallax]');
+        let ticking = false;
+
+        const update = () => {
+            const scrollY  = window.scrollY || window.pageYOffset;
+            const docH     = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docH > 0 ? Math.min(scrollY / docH, 1) : 0;
+
+            if (progressEl) {
+                progressEl.style.setProperty('--scroll-progress', progress.toFixed(4));
+            }
+            if (heroEl) {
+                // Translate the hero image down a touch as the user scrolls into the page.
+                // Capped at +60px so it never wanders far. Disabled below 640 viewport (mobile).
+                const translate = window.innerWidth >= 640
+                    ? Math.min(scrollY * 0.12, 60)
+                    : 0;
+                heroEl.style.setProperty('--hero-parallax', translate.toFixed(2));
+            }
+            ticking = false;
+        };
+
+        const onScroll = () => {
+            if (!ticking) {
+                requestAnimationFrame(update);
+                ticking = true;
+            }
+        };
+
+        update();
+        window.addEventListener('scroll',  onScroll, { passive: true });
+        window.addEventListener('resize',  onScroll, { passive: true });
+    }
 });

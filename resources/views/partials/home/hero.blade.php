@@ -1,7 +1,7 @@
 {{-- Section 1: Hero --}}
 <section class="relative -mt-[72px] overflow-hidden bg-hero-wash">
-    <div class="pointer-events-none absolute -top-32 -left-32 h-[480px] w-[480px] rounded-full bg-brand-red-100/60 blur-3xl"></div>
-    <div class="pointer-events-none absolute bottom-0 right-0 h-[420px] w-[420px] translate-x-1/3 translate-y-1/3 rounded-full bg-brand-green-100/70 blur-3xl"></div>
+    <div class="blob-drift-a pointer-events-none absolute -top-32 -left-32 h-[480px] w-[480px] rounded-full bg-brand-red-100/60 blur-3xl"></div>
+    <div class="blob-drift-b pointer-events-none absolute bottom-0 right-0 h-[420px] w-[420px] rounded-full bg-brand-green-100/70 blur-3xl"></div>
 
     <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-6 pb-24 pt-32 lg:grid-cols-2 lg:gap-16 lg:px-10 lg:pt-40">
 
@@ -13,8 +13,8 @@
 
             <h1 class="reveal reveal-delay-100 mt-6 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-brand-ink sm:text-6xl lg:text-7xl">
                 {{ setting('hero.line1', 'Nourishing') }}<br>
-                {{ setting('hero.line2_prefix') }}<span class="text-brand-green-500">{{ setting('hero.line2_accent', 'Communities') }}</span>{{ setting('hero.line2_suffix', ',') }}<br>
-                {{ setting('hero.line3_prefix', 'Building') }} <span class="text-brand-red-500">{{ setting('hero.line3_accent', 'Futures') }}</span>
+                {{ setting('hero.line2_prefix') }}<span class="draw-underline-green text-brand-green-500">{{ setting('hero.line2_accent', 'Communities') }}</span>{{ setting('hero.line2_suffix', ',') }}<br>
+                {{ setting('hero.line3_prefix', 'Building') }} <span class="draw-underline-red text-brand-red-500">{{ setting('hero.line3_accent', 'Futures') }}</span>
             </h1>
 
             <p class="reveal reveal-delay-200 mt-6 max-w-xl text-base leading-relaxed text-brand-muted sm:text-lg">
@@ -23,11 +23,13 @@
 
             <div class="reveal reveal-delay-300 mt-8 flex flex-wrap items-center gap-3">
                 <a href="{{ setting('hero.cta_primary_url', '#mission') }}"
-                   class="inline-flex items-center gap-2 rounded-full bg-brand-red-500 px-6 py-3 text-sm font-semibold text-white shadow-pill transition hover:bg-brand-red-600">
-                    {{ setting('hero.cta_primary_label', 'Join Our Mission') }}
-                    <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
-                        <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
-                    </svg>
+                   class="btn-shimmer inline-flex items-center gap-2 rounded-full bg-brand-red-500 px-6 py-3 text-sm font-semibold text-white shadow-pill transition hover:bg-brand-red-600">
+                    <span class="inline-flex items-center gap-2">
+                        {{ setting('hero.cta_primary_label', 'Join Our Mission') }}
+                        <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+                            <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>
                 </a>
                 <a href="{{ setting('hero.cta_secondary_url', '#learn-more') }}"
                    class="inline-flex items-center gap-2 rounded-full border border-brand-ink/15 bg-white px-6 py-3 text-sm font-semibold text-brand-ink transition hover:border-brand-ink/30 hover:bg-brand-red-50">
@@ -51,7 +53,7 @@
             </dl>
         </div>
 
-        <div class="reveal reveal-delay-200 group relative">
+        <div class="reveal reveal-delay-200 group relative hero-parallax" data-hero-parallax>
             @php
                 $heroImg = setting('hero.image_path')
                     ? asset('storage/' . setting('hero.image_path'))

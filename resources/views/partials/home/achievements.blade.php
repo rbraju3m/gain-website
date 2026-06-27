@@ -23,7 +23,7 @@
 
         <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             @foreach ($achievements as $i => $card)
-                <div class="reveal {{ $delays[$i % count($delays)] }} group rounded-3xl bg-white p-7 shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
+                <div class="card-hover reveal {{ $delays[$i % count($delays)] }} group rounded-3xl bg-white p-7 shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
                     @if ($svg = $card->iconSvg())
                         <span class="grid h-12 w-12 place-items-center rounded-2xl bg-brand-red-100 text-brand-red-500 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
                             <svg viewBox="0 0 24 24" class="h-6 w-6">{!! $svg !!}</svg>

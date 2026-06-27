@@ -6,7 +6,7 @@
     <div class="relative mx-auto max-w-7xl px-6 lg:px-10">
         <div class="text-center">
             <h2 class="reveal font-display text-4xl font-bold sm:text-5xl">
-                Stories of <span class="text-brand-orange-300">Hope &amp; Change</span>
+                Stories of <span class="draw-underline-orange text-brand-orange-300">Hope &amp; Change</span>
             </h2>
             <p class="reveal reveal-delay-100 mx-auto mt-4 max-w-2xl text-white/70">Real voices from the communities we serve across Bangladesh.</p>
         </div>
@@ -27,7 +27,7 @@
                     $photo = $story->photoUrl() ?: ($avatarFallbacks[$story->author_name] ?? null);
                     $initial = Str::of($story->author_name)->substr(0, 1)->upper();
                 @endphp
-                <figure class="reveal {{ $delays[$i % count($delays)] }} group rounded-3xl bg-white/10 p-8 backdrop-blur-sm ring-1 ring-white/15 transition-all duration-300 hover:-translate-y-1 hover:bg-white/15">
+                <figure class="card-hover reveal {{ $delays[$i % count($delays)] }} group rounded-3xl bg-white/10 p-8 backdrop-blur-sm ring-1 ring-white/15 transition-all duration-300 hover:-translate-y-1 hover:bg-white/15">
                     <svg viewBox="0 0 24 24" fill="currentColor" class="h-8 w-8 text-brand-orange-300">
                         <path d="M7 7h4v4H8c0 2 1 3 3 4v3c-4-1-7-3-7-7V7Zm9 0h4v4h-3c0 2 1 3 3 4v3c-4-1-7-3-7-7V7Z"/>
                     </svg>

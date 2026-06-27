@@ -12,7 +12,7 @@
 
         <div class="text-center">
             <h2 class="reveal font-display text-4xl font-bold text-brand-ink sm:text-5xl">
-                Our <span class="text-brand-red-500">Partners</span>
+                Our <span class="draw-underline-red text-brand-red-500">Partners</span>
             </h2>
             <p class="reveal reveal-delay-100 mx-auto mt-4 max-w-2xl text-brand-muted">
                 Working together with leading organizations to amplify our impact.

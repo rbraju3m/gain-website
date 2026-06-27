@@ -18,7 +18,7 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
         <div class="grid gap-6 md:grid-cols-3">
             @foreach ($mvvCards as $i => $card)
-                <div class="reveal {{ $delays[$i % count($delays)] }} group rounded-3xl bg-white p-8 shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
+                <div class="card-hover reveal {{ $delays[$i % count($delays)] }} group rounded-3xl bg-white p-8 shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
                     @if ($svg = $card->iconSvg())
                         <span class="grid h-14 w-14 place-items-center rounded-2xl {{ $iconBgs[$card->tone] ?? $iconBgs['red'] }} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
                             <svg viewBox="0 0 24 24" class="h-7 w-7">{!! $svg !!}</svg>

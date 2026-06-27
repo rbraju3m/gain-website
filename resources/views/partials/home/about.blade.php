@@ -33,7 +33,7 @@
             <span class="text-xs font-semibold uppercase tracking-[0.18em] text-brand-green-600">{{ setting('about.tagline', 'About Our Organization') }}</span>
             <h2 class="mt-3 font-display text-4xl font-bold leading-tight text-brand-ink sm:text-5xl">
                 {{ setting('about.line1', 'Building a') }} <span class="text-brand-red-500">{{ setting('about.line1_accent', 'Healthier') }}</span><br>
-                <span class="text-brand-red-500">{{ setting('about.line2_accent', 'Bangladesh') }}</span> {{ setting('about.line2_suffix', 'Together') }}
+                <span class="draw-underline-red text-brand-red-500">{{ setting('about.line2_accent', 'Bangladesh') }}</span> {{ setting('about.line2_suffix', 'Together') }}
             </h2>
             <p class="mt-5 text-brand-muted">{{ setting('about.paragraph_1') }}</p>
             <p class="mt-4 text-brand-muted">{{ setting('about.paragraph_2') }}</p>

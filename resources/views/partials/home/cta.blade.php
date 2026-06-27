@@ -19,11 +19,13 @@
 
         <div class="reveal reveal-delay-300 mt-8 flex flex-wrap items-center justify-center gap-3">
             <a href="{{ setting('cta.button_url', '#partner') }}"
-               class="group inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20">
-                {{ setting('cta.button_label', 'Become a Partner') }}
-                <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition-transform group-hover:translate-x-1">
-                    <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
-                </svg>
+               class="btn-shimmer group inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20">
+                <span class="inline-flex items-center gap-2">
+                    {{ setting('cta.button_label', 'Become a Partner') }}
+                    <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition-transform group-hover:translate-x-1">
+                        <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
+                    </svg>
+                </span>
             </a>
         </div>
 
@@ -40,7 +42,7 @@
             @endphp
             @foreach ($tiers as $i => $tier)
                 @php $color = $tonePalette[$tier['tone'] ?? 'red'] ?? $tonePalette['red']; @endphp
-                <div class="reveal {{ $delays[$i] ?? '' }} rounded-2xl bg-white/10 px-6 py-7 backdrop-blur-sm ring-1 ring-white/15 transition hover:-translate-y-1 hover:bg-white/15">
+                <div class="card-hover reveal {{ $delays[$i] ?? '' }} rounded-2xl bg-white/10 px-6 py-7 backdrop-blur-sm ring-1 ring-white/15 transition hover:-translate-y-1 hover:bg-white/15">
                     <div class="font-display text-3xl font-bold {{ $color }}">{{ $tier['amount'] ?? '' }}</div>
                     <div class="mt-2 text-sm text-white/80">{{ $tier['desc'] ?? '' }}</div>
                 </div>

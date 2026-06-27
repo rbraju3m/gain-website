@@ -16,6 +16,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans text-brand-ink antialiased bg-brand-cream">
+    {{-- Scroll progress (top, behind sticky nav). Width driven by JS via --scroll-progress. --}}
+    <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
+
     @include('partials.site-nav')
 
     <main>

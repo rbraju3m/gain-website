@@ -5,7 +5,7 @@
         <div class="flex flex-wrap items-end justify-between gap-6">
             <div>
                 <h2 class="reveal font-display text-4xl font-bold text-brand-ink sm:text-5xl">
-                    Latest <span class="text-brand-red-500">News &amp; Events</span>
+                    Latest <span class="draw-underline-red text-brand-red-500">News &amp; Events</span>
                 </h2>
                 <p class="reveal reveal-delay-100 mt-3 max-w-xl text-brand-muted">
                     Stay updated with our latest initiatives, success stories, and community impact.
@@ -33,7 +33,7 @@
         <div class="mt-12 grid gap-8 md:grid-cols-3">
             @foreach ($articles as $i => $post)
                 @php $imgSrc = $post->imageUrl() ?: ($fallbacks[$post->title] ?? null); @endphp
-                <article class="reveal {{ $delays[$i % count($delays)] }} group overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
+                <article class="card-hover reveal {{ $delays[$i % count($delays)] }} group overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft">
                     <div class="img-zoom relative">
                         @if ($imgSrc)
                             <img src="{{ $imgSrc }}" alt="{{ $post->title }}" class="aspect-[16/10] w-full object-cover">
