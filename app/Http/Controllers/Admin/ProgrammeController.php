@@ -22,7 +22,10 @@ class ProgrammeController extends Controller
 
     public function store(ProgrammeRequest $request)
     {
-        $programme = Programme::create($request->safe()->except(['image', 'remove_image']));
+        $data = $request->safe()->except(['image', 'remove_image']);
+        $data['slug'] = Programme::generateSlug($data['title']);
+
+        $programme = Programme::create($data);
         $this->syncImage($programme, $request);
 
         return redirect()->route('admin.programmes.index')
@@ -36,7 +39,13 @@ class ProgrammeController extends Controller
 
     public function update(ProgrammeRequest $request, Programme $programme)
     {
-        $programme->update($request->safe()->except(['image', 'remove_image']));
+        $data = $request->safe()->except(['image', 'remove_image']);
+
+        if (isset($data['title']) && $data['title'] !== $programme->title) {
+            $data['slug'] = Programme::generateSlug($data['title'], $programme->id);
+        }
+
+        $programme->update($data);
         $this->syncImage($programme, $request);
 
         return redirect()->route('admin.programmes.index')

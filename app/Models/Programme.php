@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Support\HasHomepageCache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -25,8 +26,14 @@ class Programme extends Model implements HasMedia
         return Cache::rememberForever(self::CACHE_KEY, fn () => self::published()->ordered()->with('media')->get());
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     protected $fillable = [
         'title',
+        'slug',
         'category',
         'body',
         'url',
@@ -61,5 +68,23 @@ class Programme extends Model implements HasMedia
     {
         $url = $this->getFirstMediaUrl('image');
         return $url !== '' ? $url : null;
+    }
+
+    /** Make a unique slug from the title, avoiding collision with $ignoreId. */
+    public static function generateSlug(string $title, ?int $ignoreId = null): string
+    {
+        $base = Str::slug($title) ?: 'programme';
+        $slug = $base;
+        $n    = 2;
+
+        while (static::query()
+            ->where('slug', $slug)
+            ->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))
+            ->exists()
+        ) {
+            $slug = "{$base}-{$n}";
+            $n++;
+        }
+        return $slug;
     }
 }

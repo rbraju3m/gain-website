@@ -16,7 +16,7 @@ class ProgrammeRequest extends FormRequest
         return [
             'title'        => ['required', 'string', 'max:160'],
             'category'     => ['nullable', 'string', 'max:60'],
-            'body'         => ['nullable', 'string', 'max:2000'],
+            'body'         => ['nullable', 'string', 'max:20000'],
             'url'          => ['nullable', 'string', 'max:500'],
             'sort_order'   => ['nullable', 'integer', 'min:0', 'max:999'],
             'is_published' => ['sometimes', 'boolean'],

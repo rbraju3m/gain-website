@@ -52,7 +52,7 @@
                         @if ($card->body)
                             <p class="mt-3 text-brand-muted">{{ Str::limit(strip_tags($card->body), 180) }}</p>
                         @endif
-                        <a href="{{ $card->url ?: '#' }}" class="group/btn mt-5 inline-flex items-center gap-1.5 rounded-full bg-brand-cream px-5 py-2 text-sm font-semibold text-brand-red-500 transition hover:bg-brand-red-100">
+                        <a href="{{ route('programmes.show', $card) }}" class="group/btn mt-5 inline-flex items-center gap-1.5 rounded-full bg-brand-cream px-5 py-2 text-sm font-semibold text-brand-red-500 transition hover:bg-brand-red-100">
                             Learn More
                             <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition-transform group-hover/btn:translate-x-1">
                                 <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
