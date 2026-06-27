@@ -143,13 +143,13 @@
 
         {{-- Right cluster: CTA (desktop) + mobile toggle --}}
         <div class="flex items-center gap-3">
-            <a href="{{ url('/#cta') }}"
+            <a href="{{ url('/#contact') }}"
                class="btn-shimmer hidden items-center gap-2 rounded-full bg-brand-red-500 px-5 py-2.5 text-sm font-semibold text-white shadow-pill transition hover:bg-brand-red-600 lg:inline-flex">
                 <span class="inline-flex items-center gap-2">
+                    Get Involved
                     <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
-                        <path d="M10 17s-6-4.1-6-9.1A3.9 3.9 0 0 1 10 4.4 3.9 3.9 0 0 1 16 7.9c0 5-6 9.1-6 9.1Z"/>
+                        <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
                     </svg>
-                    Donate
                 </span>
             </a>
 
@@ -224,13 +224,13 @@
                 <li><a href="{{ url('/#contact') }}"   @click="mobileOpen = false" class="block rounded-lg px-3 py-2.5 hover:bg-brand-red-50 hover:text-brand-red-500">Contact</a></li>
             </ul>
 
-            <a href="{{ url('/#cta') }}" @click="mobileOpen = false"
+            <a href="{{ url('/#contact') }}" @click="mobileOpen = false"
                class="btn-shimmer mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-red-500 px-5 py-3 text-sm font-semibold text-white shadow-pill hover:bg-brand-red-600">
                 <span class="inline-flex items-center gap-2">
+                    Get Involved
                     <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
-                        <path d="M10 17s-6-4.1-6-9.1A3.9 3.9 0 0 1 10 4.4 3.9 3.9 0 0 1 16 7.9c0 5-6 9.1-6 9.1Z"/>
-                    </svg>
-                    Donate
+                        <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
+                </svg>
                 </span>
             </a>
         </div>
