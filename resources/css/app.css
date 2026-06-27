@@ -349,6 +349,26 @@
     }
     .rte-wrap .ql-editor { padding: 1rem 1.25rem; min-height: 200px; }
 
+    /* Footer link hover — subtle slide-in indicator */
+    .footer-link {
+        position: relative;
+        display: inline-block;
+        transition: color 0.2s ease, transform 0.2s ease;
+    }
+    .footer-link:hover { color: #FFFFFF; transform: translateX(2px); }
+    .footer-link::before {
+        content: "›";
+        margin-right: 0.35rem;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        color: #FFA268;
+    }
+    .footer-link:hover::before { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) {
+        .footer-link, .footer-link::before { transition: none; }
+        .footer-link:hover { transform: none; }
+    }
+
     /* Header nav links — center-out red underline on hover, plus subtle color shift */
     .nav-link {
         position: relative;
