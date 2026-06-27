@@ -26,6 +26,11 @@ class NewsArticle extends Model implements HasMedia
         return Cache::rememberForever(self::CACHE_KEY, fn () => self::published()->newest()->with('media')->take(3)->get());
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     protected $fillable = [
         'title',
         'slug',
