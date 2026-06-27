@@ -1,11 +1,15 @@
-{{-- Reusable share row. Pass $url + $title via @include data. Vertical on lg+. --}}
+{{-- Reusable share row. Pass $url + $title via @include data.
+     Optional $layout: "horizontal" (default) | "vertical". --}}
 @php
     $shareUrl   = urlencode($url);
     $shareTitle = urlencode($title);
+    $layout     = $layout ?? 'horizontal';
+    $rowClasses = $layout === 'vertical'
+        ? 'flex flex-col items-stretch gap-2'
+        : 'flex flex-wrap items-center gap-2';
 @endphp
 
-<div x-data="{ copied: false }"
-     class="flex flex-wrap items-center gap-2 lg:flex-col lg:items-stretch">
+<div x-data="{ copied: false }" class="{{ $rowClasses }}">
 
     <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareTitle }}"
        target="_blank" rel="noopener" aria-label="Share on X"

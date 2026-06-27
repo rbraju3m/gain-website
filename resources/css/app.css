@@ -338,9 +338,12 @@
     /* Header nav links — center-out red underline on hover, plus subtle color shift */
     .nav-link {
         position: relative;
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
         padding: 0.5rem 0.85rem;
         transition: color 0.2s ease;
+        white-space: nowrap;
     }
     .nav-link::after {
         content: '';

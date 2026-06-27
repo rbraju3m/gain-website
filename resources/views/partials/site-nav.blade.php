@@ -1,4 +1,11 @@
 @php
+    // Two pinned external programmes at the top of the Programmes dropdown.
+    // Open in a new tab; replace the placeholder URLs when the real ones are known.
+    $pinnedProgrammes = [
+        ['label' => 'At a Glance', 'url' => 'https://example.com/at-a-glance'],
+        ['label' => 'Swapno',      'url' => 'https://example.com/swapno'],
+    ];
+
     // Live Programmes dropdown — pulls from the same dataset that drives the
     // homepage card grid. Detail links use the public /programmes/{slug} route.
     $navProgrammes = \App\Models\Programme::published()->ordered()->get(['id', 'title', 'slug', 'category']);
@@ -73,7 +80,25 @@
                     class="absolute left-1/2 top-full w-80 -translate-x-1/2 pt-3"
                 >
                     <div class="overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/5">
-                        <div class="px-4 pb-1 pt-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-red-500">Our Programmes</div>
+
+                        {{-- Pinned external entries (At a Glance, Swapno) --}}
+                        <div class="px-4 pb-1 pt-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-red-500">At a Glance</div>
+                        <div class="px-2 pt-2">
+                            @foreach ($pinnedProgrammes as $pin)
+                                <a href="{{ $pin['url'] }}" target="_blank" rel="noopener noreferrer"
+                                   class="group/pin flex items-center justify-between rounded-xl px-3 py-2 text-sm font-medium text-brand-ink transition hover:bg-brand-red-50 hover:text-brand-red-500">
+                                    {{ $pin['label'] }}
+                                    <svg viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5 opacity-50 group-hover/pin:opacity-100">
+                                        <path d="M11 3a1 1 0 1 0 0 2h2.586l-6.293 6.293a1 1 0 1 0 1.414 1.414L15 6.414V9a1 1 0 1 0 2 0V4a1 1 0 0 0-1-1h-5Z"/>
+                                        <path d="M5 5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-3a1 1 0 1 0-2 0v3H5V7h3a1 1 0 0 0 0-2H5Z"/>
+                                    </svg>
+                                </a>
+                            @endforeach
+                        </div>
+
+                        <div class="mx-4 my-2 border-t border-brand-red-100"></div>
+
+                        <div class="px-4 pb-1 pt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-red-500">Our Programmes</div>
 
                         <div class="px-2 py-2">
                             @forelse ($navProgrammes as $p)
@@ -169,6 +194,18 @@
                             </svg>
                         </summary>
                         <div class="ml-3 mt-1 space-y-0.5 border-l border-brand-cream pl-3">
+                            @foreach ($pinnedProgrammes as $pin)
+                                <a href="{{ $pin['url'] }}" target="_blank" rel="noopener noreferrer"
+                                   @click="mobileOpen = false"
+                                   class="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-brand-ink/85 hover:bg-brand-red-50 hover:text-brand-red-500">
+                                    {{ $pin['label'] }}
+                                    <svg viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5 opacity-50">
+                                        <path d="M11 3a1 1 0 1 0 0 2h2.586l-6.293 6.293a1 1 0 1 0 1.414 1.414L15 6.414V9a1 1 0 1 0 2 0V4a1 1 0 0 0-1-1h-5Z"/>
+                                        <path d="M5 5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-3a1 1 0 1 0-2 0v3H5V7h3a1 1 0 0 0 0-2H5Z"/>
+                                    </svg>
+                                </a>
+                            @endforeach
+                            <div class="my-1 border-t border-brand-cream"></div>
                             @forelse ($navProgrammes as $p)
                                 <a href="{{ route('programmes.show', $p) }}" @click="mobileOpen = false" class="block rounded-lg px-3 py-2 text-sm text-brand-ink/85 hover:bg-brand-red-50 hover:text-brand-red-500">
                                     {{ $p->title }}
