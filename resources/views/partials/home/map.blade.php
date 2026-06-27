@@ -13,11 +13,20 @@
             current() { return this.divisions[this.active]; },
             zoom: 1, panX: 0, panY: 0,
             dragging: false, lastX: 0, lastY: 0,
+            isFullscreen: false,
             zoomIn()    { this.zoom = Math.min(+(this.zoom + 0.4).toFixed(2), 3); },
             zoomOut()   { this.zoom = Math.max(+(this.zoom - 0.4).toFixed(2), 1); if (this.zoom === 1) { this.panX = 0; this.panY = 0; } },
             zoomReset() { this.zoom = 1; this.panX = 0; this.panY = 0; },
+            toggleFullscreen() {
+                this.isFullscreen = ! this.isFullscreen;
+                document.body.style.overflow = this.isFullscreen ? 'hidden' : '';
+                this.zoomReset();
+            },
             wheelZoom(e) {
-                if (! e.ctrlKey && Math.abs(e.deltaY) < 30) return;
+                // Only intercept the wheel when the user is clearly trying to
+                // zoom (Ctrl/Cmd+wheel, i.e. trackpad pinch). Otherwise let
+                // normal page scrolling pass through.
+                if (! e.ctrlKey && ! e.metaKey) return;
                 e.preventDefault();
                 const dir = e.deltaY > 0 ? -0.2 : 0.2;
                 this.zoom = Math.min(Math.max(+(this.zoom + dir).toFixed(2), 1), 3);
@@ -35,6 +44,7 @@
             },
             endDrag() { this.dragging = false; }
          }"
+         @keydown.escape.window="if (isFullscreen) toggleFullscreen()"
          x-init="
             $nextTick(() => {
                 $refs.map.querySelectorAll('.bd-div').forEach(g => {
@@ -67,9 +77,13 @@
 
         <div class="mt-12 grid items-start gap-8 lg:grid-cols-5">
 
-            {{-- Map (3 of 5 cols) --}}
+            {{-- Map (3 of 5 cols). When isFullscreen, the card becomes a
+                 viewport-filling overlay; otherwise it lives in the grid. --}}
             <div class="lg:col-span-3">
-                <div class="relative rounded-[2rem] bg-white p-4 sm:p-6 shadow-card ring-1 ring-black/5">
+                <div :class="isFullscreen
+                        ? 'fixed inset-0 z-[60] flex flex-col rounded-none bg-white p-4 sm:p-6'
+                        : 'relative rounded-[2rem] bg-white p-4 sm:p-6 shadow-card ring-1 ring-black/5'"
+                     class="transition-all">
 
                     {{-- Zoom controls (top-right of map card) --}}
                     <div class="absolute right-7 top-7 z-20 flex flex-col gap-1 rounded-2xl bg-white/95 p-1 shadow-card ring-1 ring-black/5 backdrop-blur">
@@ -84,20 +98,29 @@
                                 class="grid h-9 w-9 place-items-center rounded-xl text-slate-700 transition hover:bg-brand-red-50 hover:text-brand-red-500 disabled:cursor-not-allowed disabled:opacity-30">
                             <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path d="M5 9a1 1 0 1 0 0 2h10a1 1 0 1 0 0-2H5Z"/></svg>
                         </button>
-                        <button type="button" @click="zoomReset()" aria-label="Reset view"
+                        <button type="button" @click="zoomReset()" aria-label="Reset zoom"
                                 class="grid h-9 w-9 place-items-center rounded-xl text-slate-700 transition hover:bg-brand-red-50 hover:text-brand-red-500">
                             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                                 <path d="M4 4h4M4 4v4M16 4h-4M16 4v4M4 16h4M4 16v-4M16 16h-4M16 16v-4"/>
                             </svg>
                         </button>
+                        <button type="button" @click="toggleFullscreen()" :aria-label="isFullscreen ? 'Exit fullscreen' : 'View fullscreen'"
+                                class="grid h-9 w-9 place-items-center rounded-xl text-slate-700 transition hover:bg-brand-red-50 hover:text-brand-red-500">
+                            <svg x-show="!isFullscreen" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                                <path d="M3 7V3h4M17 7V3h-4M3 13v4h4M17 13v4h-4"/>
+                            </svg>
+                            <svg x-show="isFullscreen" x-cloak viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                                <path d="M7 3v4H3M13 3v4h4M7 17v-4H3M13 17v-4h4"/>
+                            </svg>
+                        </button>
                     </div>
 
-                    <div class="bd-map relative overflow-hidden rounded-2xl"
+                    <div :class="isFullscreen ? 'bd-map bd-map-fs relative flex-1 overflow-hidden rounded-2xl' : 'bd-map relative overflow-hidden rounded-2xl'"
                          x-ref="map"
                          @mousedown="startDrag($event)"
                          @mousemove.window="drag($event)"
                          @mouseup.window="endDrag()"
-                         @wheel.passive="wheelZoom($event)"
+                         @wheel="wheelZoom($event)"
                          :style="dragging ? 'cursor: grabbing' : (zoom > 1 ? 'cursor: grab' : '')">
                         <div class="bd-map-inner"
                              :style="`transform: scale(${zoom}) translate(${panX}px, ${panY}px); transition: ${dragging ? 'none' : 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)'};`">
@@ -179,9 +202,14 @@
 
 <style>
     .bd-map { transform-origin: center; }
-    .bd-map-inner { position: relative; transform-origin: center; will-change: transform; }
+    .bd-map-inner { position: relative; transform-origin: center; will-change: transform; height: 100%; }
     .bd-map-inner svg { width: 100%; height: auto; max-height: 640px; display: block; }
     .bd-map-inner .district-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+
+    /* Fullscreen variant: let the SVG fill available height. */
+    .bd-map-fs { display: flex; align-items: center; justify-content: center; }
+    .bd-map-fs .bd-map-inner { display: flex; align-items: center; justify-content: center; height: 100%; }
+    .bd-map-fs .bd-map-inner svg { max-height: none; height: 100%; width: auto; max-width: 100%; }
 
     /* Base division paths */
     .bd-map g.bd-div path {
