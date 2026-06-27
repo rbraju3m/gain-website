@@ -25,6 +25,7 @@
         'Overview' => [
             ['label' => 'Dashboard',     'route' => 'admin.dashboard',     'icon' => 'M3 12 12 3l9 9-2 0v8a1 1 0 0 1-1 1h-4v-6h-4v6H6a1 1 0 0 1-1-1v-8H3Z'],
             ['label' => 'Site Settings', 'route' => 'admin.settings.edit', 'icon' => 'M12 3v2M21 12h-2M12 21v-2M3 12h2M5.6 5.6l1.4 1.4M18.4 5.6 17 7M18.4 18.4 17 17M5.6 18.4 7 17M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z'],
+            ['label' => 'Users',         'route' => 'admin.users.index',   'icon' => 'M9 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-6 9a6 6 0 0 1 12 0M16 11a3 3 0 1 0 0-6M21 21a6 6 0 0 0-3-5.2'],
         ],
         'Content' => [
             ['label' => 'Programmes',    'route' => 'admin.programmes.index',  'icon' => 'M4 4h16v4H4zM4 10h10v10H4zM16 10h4v10h-4z'],

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\PartnerController as AdminPartnerController;
 use App\Http\Controllers\Admin\ProgrammeController as AdminProgrammeController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsArticleController;
 use App\Http\Controllers\ProfileController;
@@ -77,6 +78,8 @@ Route::middleware(['auth', 'role:admin'])
         Route::patch('districts',  [AdminDistrictController::class, 'updateActive'])->name('districts.update-active');
 
         Route::resource('contact', AdminContactMessageController::class)->only(['index', 'show', 'destroy']);
+
+        Route::resource('users', AdminUserController::class)->except(['show']);
     });
 
 require __DIR__.'/auth.php';
