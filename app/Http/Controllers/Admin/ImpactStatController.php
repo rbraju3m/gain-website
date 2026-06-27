@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImpactStat\ImpactStatRequest;
 use App\Models\ImpactStat;
+use App\Support\HasAdminSorting;
 
 class ImpactStatController extends Controller
 {
+    use HasAdminSorting;
+
+    protected function sortableModelClass(): string { return ImpactStat::class; }
+
     public function index()
     {
         $stats = ImpactStat::ordered()->get();

@@ -14,11 +14,17 @@
                 @if ($unreadCount) <span class="ml-1 inline-flex items-center gap-1 rounded-full bg-brand-red-50 px-2 py-0.5 text-xs font-semibold text-brand-red-500"><span class="h-1.5 w-1.5 rounded-full bg-brand-red-500"></span> {{ $unreadCount }} unread</span> @endif
             </p>
         </div>
+        <x-admin.search-box placeholder="Search name, email, message…" :value="$q" />
     </div>
 
     @if ($messages->isEmpty())
         <div class="px-6 py-12 text-center text-sm text-slate-500">
-            No messages yet. The public form on the homepage will deliver here.
+            @if (filled($q))
+                No messages match "<strong class="text-slate-700">{{ $q }}</strong>".
+                <a href="{{ route('admin.contact.index') }}" class="font-semibold text-brand-red-500">Clear search</a>.
+            @else
+                No messages yet. The public form on the homepage will deliver here.
+            @endif
         </div>
     @else
         <table class="w-full text-left text-sm">

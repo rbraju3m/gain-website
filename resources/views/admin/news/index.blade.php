@@ -11,15 +11,23 @@
             <h2 class="text-base font-semibold text-slate-900">News &amp; events</h2>
             <p class="text-sm text-slate-500">Published articles ordered newest first; the homepage shows the latest 3. {{ $articles->total() }} total.</p>
         </div>
-        <a href="{{ route('admin.news.create') }}"
-           class="inline-flex items-center gap-1.5 rounded-full bg-brand-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-red-600">
-            + New article
-        </a>
+        <div class="flex flex-wrap items-center gap-3">
+            <x-admin.search-box placeholder="Search title or excerpt…" :value="$q" />
+            <a href="{{ route('admin.news.create') }}"
+               class="inline-flex items-center gap-1.5 rounded-full bg-brand-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-red-600">
+                + New
+            </a>
+        </div>
     </div>
 
     @if ($articles->isEmpty())
         <div class="px-6 py-12 text-center text-sm text-slate-500">
-            No articles yet. <a href="{{ route('admin.news.create') }}" class="font-semibold text-brand-red-500">Write the first one</a>.
+            @if (filled($q))
+                No articles match "<strong class="text-slate-700">{{ $q }}</strong>".
+                <a href="{{ route('admin.news.index') }}" class="font-semibold text-brand-red-500">Clear search</a>.
+            @else
+                No articles yet. <a href="{{ route('admin.news.create') }}" class="font-semibold text-brand-red-500">Write the first one</a>.
+            @endif
         </div>
     @else
         <table class="w-full text-left text-sm">

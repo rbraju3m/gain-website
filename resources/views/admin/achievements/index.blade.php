@@ -8,7 +8,7 @@
     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-6 py-4">
         <div>
             <h2 class="text-base font-semibold text-slate-900">Our Achievements</h2>
-            <p class="text-sm text-slate-500">Stat-list cards (section 5). Each card has a title, icon, and 2–4 metric rows. {{ $achievements->count() }} total.</p>
+            <p class="text-sm text-slate-500">Stat-list cards (section 5). {{ $achievements->count() }} total · <span class="text-slate-400">drag to reorder</span>.</p>
         </div>
         <a href="{{ route('admin.achievements.create') }}"
            class="inline-flex items-center gap-1.5 rounded-full bg-brand-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-red-600">
@@ -24,17 +24,20 @@
         <table class="w-full text-left text-sm">
             <thead class="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
                 <tr>
+                    <th class="w-8 px-2 py-3"></th>
                     <th class="px-6 py-3">Icon</th>
                     <th class="px-6 py-3">Title</th>
                     <th class="px-6 py-3">Rows</th>
-                    <th class="px-6 py-3">Order</th>
                     <th class="px-6 py-3">Status</th>
                     <th class="px-6 py-3 text-right">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100">
+            <tbody class="divide-y divide-slate-100" data-sortable data-url="{{ route('admin.achievements.sort') }}">
                 @foreach ($achievements as $a)
-                    <tr class="hover:bg-slate-50">
+                    <tr class="hover:bg-slate-50" data-id="{{ $a->id }}">
+                        <td class="drag-handle w-8 px-2 py-3" title="Drag to reorder">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4"><circle cx="9" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+                        </td>
                         <td class="px-6 py-3">
                             @if ($svg = $a->iconSvg())
                                 <span class="grid h-9 w-9 place-items-center rounded-lg bg-brand-red-50 text-brand-red-500">
@@ -50,7 +53,6 @@
                                 <div><span class="text-slate-400">{{ $row['label'] }}:</span> <span class="font-mono">{{ $row['value'] ?: '—' }}</span></div>
                             @endforeach
                         </td>
-                        <td class="px-6 py-3 text-slate-600">{{ $a->sort_order }}</td>
                         <td class="px-6 py-3">
                             @if ($a->is_published)
                                 <span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-500"></span> Published</span>

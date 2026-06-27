@@ -49,6 +49,15 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('settings',    [AdminSettingsController::class, 'edit'])->name('settings.edit');
         Route::patch('settings',  [AdminSettingsController::class, 'update'])->name('settings.update');
 
+        // Drag-and-drop sort endpoints (must be declared before the resource
+        // routes so they don't collide with /{model} parameters).
+        Route::post('programmes/sort',   [AdminProgrammeController::class,   'sort'])->name('programmes.sort');
+        Route::post('partners/sort',     [AdminPartnerController::class,     'sort'])->name('partners.sort');
+        Route::post('testimonials/sort', [AdminTestimonialController::class, 'sort'])->name('testimonials.sort');
+        Route::post('impact/sort',       [AdminImpactStatController::class,  'sort'])->name('impact.sort');
+        Route::post('achievements/sort', [AdminAchievementController::class, 'sort'])->name('achievements.sort');
+        Route::post('mvv/sort',          [AdminMvvCardController::class,     'sort'])->name('mvv.sort');
+
         Route::resource('programmes', AdminProgrammeController::class)->except(['show']);
         Route::resource('news', AdminNewsArticleController::class)->except(['show']);
         Route::resource('partners', AdminPartnerController::class)->except(['show']);

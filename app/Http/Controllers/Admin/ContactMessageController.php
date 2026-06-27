@@ -9,12 +9,22 @@ use Illuminate\View\View;
 
 class ContactMessageController extends Controller
 {
-    public function index(): View
+    public function index(\Illuminate\Http\Request $request): View
     {
-        $messages = ContactMessage::orderByDesc('id')->paginate(20);
+        $q = $request->string('q')->toString();
+        $messages = ContactMessage::query()
+            ->when($q !== '', fn ($qb) => $qb->where(function ($w) use ($q) {
+                $w->where('name', 'like', "%{$q}%")
+                  ->orWhere('email', 'like', "%{$q}%")
+                  ->orWhere('subject', 'like', "%{$q}%")
+                  ->orWhere('message', 'like', "%{$q}%");
+            }))
+            ->orderByDesc('id')
+            ->paginate(20)
+            ->withQueryString();
         $unreadCount = ContactMessage::unread()->count();
 
-        return view('admin.contact.index', compact('messages', 'unreadCount'));
+        return view('admin.contact.index', compact('messages', 'unreadCount', 'q'));
     }
 
     public function show(ContactMessage $contact): View

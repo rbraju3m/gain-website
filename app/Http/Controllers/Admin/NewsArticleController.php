@@ -8,14 +8,19 @@ use App\Models\NewsArticle;
 
 class NewsArticleController extends Controller
 {
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
+        $q = $request->string('q')->toString();
         $articles = NewsArticle::query()
+            ->when($q !== '', fn ($qb) => $qb->where(function ($w) use ($q) {
+                $w->where('title', 'like', "%{$q}%")->orWhere('excerpt', 'like', "%{$q}%");
+            }))
             ->orderByDesc('published_at')
             ->orderByDesc('id')
-            ->paginate(20);
+            ->paginate(20)
+            ->withQueryString();
 
-        return view('admin.news.index', compact('articles'));
+        return view('admin.news.index', compact('articles', 'q'));
     }
 
     public function create()

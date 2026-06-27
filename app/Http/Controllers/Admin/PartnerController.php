@@ -5,14 +5,24 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Partner\PartnerRequest;
 use App\Models\Partner;
+use App\Support\HasAdminSorting;
+use Illuminate\Http\Request;
 
 class PartnerController extends Controller
 {
-    public function index()
+    use HasAdminSorting;
+
+    protected function sortableModelClass(): string { return Partner::class; }
+
+    public function index(Request $request)
     {
-        $strategic    = Partner::ordered()->strategic()->get();
-        $implementing = Partner::ordered()->implementing()->get();
-        return view('admin.partners.index', compact('strategic', 'implementing'));
+        $q = $request->string('q')->toString();
+        $base = Partner::query()
+            ->when($q !== '', fn ($qb) => $qb->where('name', 'like', "%{$q}%"))
+            ->ordered();
+        $strategic    = (clone $base)->strategic()->get();
+        $implementing = (clone $base)->implementing()->get();
+        return view('admin.partners.index', compact('strategic', 'implementing', 'q'));
     }
 
     public function create()

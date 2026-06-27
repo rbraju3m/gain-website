@@ -321,6 +321,20 @@
         margin: 2.5em 0;
     }
 
+    /* SortableJS — drag handle + ghost row styles for admin tables */
+    .drag-handle {
+        cursor: grab;
+        color: #94A3B8;
+    }
+    .drag-handle:hover { color: #475569; }
+    .drag-handle:active { cursor: grabbing; }
+    .drag-ghost {
+        opacity: 0.55;
+        background: #FFF1F2 !important;
+    }
+    .drag-chosen { background: #FAF1ED !important; }
+    .drag-saving { opacity: 0.6; pointer-events: none; transition: opacity 0.15s; }
+
     /* Quill editor frame inside admin forms */
     .rte-wrap .ql-toolbar.ql-snow {
         border: 0;

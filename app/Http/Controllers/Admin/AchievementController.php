@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Achievement\AchievementRequest;
 use App\Models\Achievement;
+use App\Support\HasAdminSorting;
 
 class AchievementController extends Controller
 {
+    use HasAdminSorting;
+
+    protected function sortableModelClass(): string { return Achievement::class; }
+
     public function index()
     {
         $achievements = Achievement::ordered()->get();

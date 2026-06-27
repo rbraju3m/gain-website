@@ -5,13 +5,23 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Programme\ProgrammeRequest;
 use App\Models\Programme;
+use App\Support\HasAdminSorting;
+use Illuminate\Http\Request;
 
 class ProgrammeController extends Controller
 {
-    public function index()
+    use HasAdminSorting;
+
+    protected function sortableModelClass(): string { return Programme::class; }
+
+    public function index(Request $request)
     {
-        $programmes = Programme::ordered()->get();
-        return view('admin.programmes.index', compact('programmes'));
+        $q = $request->string('q')->toString();
+        $programmes = Programme::ordered()
+            ->when($q !== '', fn ($qb) => $qb->where('title', 'like', "%{$q}%"))
+            ->paginate(20)
+            ->withQueryString();
+        return view('admin.programmes.index', compact('programmes', 'q'));
     }
 
     public function create()

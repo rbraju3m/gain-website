@@ -5,13 +5,23 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Testimonial\TestimonialRequest;
 use App\Models\Testimonial;
+use App\Support\HasAdminSorting;
+use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
 {
-    public function index()
+    use HasAdminSorting;
+
+    protected function sortableModelClass(): string { return Testimonial::class; }
+
+    public function index(Request $request)
     {
-        $testimonials = Testimonial::ordered()->get();
-        return view('admin.testimonials.index', compact('testimonials'));
+        $q = $request->string('q')->toString();
+        $testimonials = Testimonial::ordered()
+            ->when($q !== '', fn ($qb) => $qb->where('author_name', 'like', "%{$q}%"))
+            ->paginate(20)
+            ->withQueryString();
+        return view('admin.testimonials.index', compact('testimonials', 'q'));
     }
 
     public function create()

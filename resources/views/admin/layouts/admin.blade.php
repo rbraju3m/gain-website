@@ -222,6 +222,44 @@
     </div>
 </div>
 
+{{-- SortableJS: any <tbody data-sortable data-url="..."> with rows that have
+     data-id becomes drag-and-drop reorderable. Each row needs a .drag-handle
+     element. On drop, the new order is POSTed to data-url. --}}
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('tbody[data-sortable]').forEach(function (tbody) {
+            const url = tbody.dataset.url;
+            if (! url) return;
+            Sortable.create(tbody, {
+                handle: '.drag-handle',
+                animation: 180,
+                ghostClass: 'drag-ghost',
+                chosenClass: 'drag-chosen',
+                onEnd: function () {
+                    const order = Array.from(tbody.querySelectorAll('tr[data-id]')).map(tr => tr.dataset.id);
+                    tbody.classList.add('drag-saving');
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify({ order: order }),
+                    }).then(r => {
+                        tbody.classList.remove('drag-saving');
+                        if (! r.ok) console.warn('Sort save failed', r.status);
+                    }).catch(e => {
+                        tbody.classList.remove('drag-saving');
+                        console.warn('Sort save error', e);
+                    });
+                },
+            });
+        });
+    });
+</script>
+
 {{-- Quill init: every <textarea data-rte> becomes a rich-text editor. --}}
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 <script>

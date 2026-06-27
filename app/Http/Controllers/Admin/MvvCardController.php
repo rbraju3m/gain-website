@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MvvCard\MvvCardRequest;
 use App\Models\MvvCard;
+use App\Support\HasAdminSorting;
 
 class MvvCardController extends Controller
 {
+    use HasAdminSorting;
+
+    protected function sortableModelClass(): string { return MvvCard::class; }
+
     public function index()
     {
         $cards = MvvCard::ordered()->get();
