@@ -29,9 +29,14 @@ Route::get('/programmes/{programme:slug}', [ProgrammeController::class, 'show'])
 Route::get('/news',                        [NewsArticleController::class, 'index'])->name('news.index');
 Route::get('/news/{article:slug}',         [NewsArticleController::class, 'show'])->name('news.show');
 
+// Post-login landing. Kept under the name "dashboard" so all the Breeze
+// redirects in app/Http/Controllers/Auth/* keep resolving — but admins go
+// straight to /admin and non-admins bounce to the public homepage.
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    return auth()->user()?->isAdmin()
+        ? redirect()->route('admin.dashboard')
+        : redirect('/');
+})->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
