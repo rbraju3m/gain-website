@@ -47,8 +47,5 @@
         </div>
     </div>
 
-    <div class="flex items-center justify-between">
-        <a href="{{ route('admin.mvv.index') }}" class="text-sm text-slate-500 hover:text-slate-800">← Back</a>
-        <button type="submit" class="rounded-full bg-brand-red-500 px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-red-600">{{ $submitLabel }}</button>
-    </div>
+    <x-admin.form-actions :back-to="route('admin.mvv.index')" :submit-label="$submitLabel" />
 </form>

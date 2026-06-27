@@ -60,10 +60,10 @@
                         </td>
                         <td class="px-6 py-3 text-right">
                             <a href="{{ route('admin.mvv.edit', $c) }}" class="text-sm font-semibold text-brand-red-500 hover:text-brand-red-600">Edit</a>
-                            <form method="POST" action="{{ route('admin.mvv.destroy', $c) }}" class="inline" onsubmit="return confirm('Delete this card?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="ml-3 text-sm text-slate-500 hover:text-red-600">Delete</button>
-                            </form>
+                            <x-admin.confirm-delete :action="route('admin.mvv.destroy', $c)"
+                                                    title="Delete this card?"
+                                                    :message="'“' . $c->title . '” will be permanently removed.'"
+                                                    class="ml-3 text-sm text-slate-500 hover:text-red-600" />
                         </td>
                     </tr>
                 @endforeach

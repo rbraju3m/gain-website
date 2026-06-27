@@ -60,10 +60,10 @@
                         </td>
                         <td class="px-6 py-3 text-right">
                             <a href="{{ route('admin.achievements.edit', $a) }}" class="text-sm font-semibold text-brand-red-500 hover:text-brand-red-600">Edit</a>
-                            <form method="POST" action="{{ route('admin.achievements.destroy', $a) }}" class="inline" onsubmit="return confirm('Delete this achievement?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="ml-3 text-sm text-slate-500 hover:text-red-600">Delete</button>
-                            </form>
+                            <x-admin.confirm-delete :action="route('admin.achievements.destroy', $a)"
+                                                    title="Delete this achievement?"
+                                                    :message="'“' . $a->title . '” will be permanently removed.'"
+                                                    class="ml-3 text-sm text-slate-500 hover:text-red-600" />
                         </td>
                     </tr>
                 @endforeach

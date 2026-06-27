@@ -43,10 +43,10 @@
                    class="inline-flex items-center gap-1.5 rounded-full bg-brand-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-red-600">
                     Reply by email
                 </a>
-                <form method="POST" action="{{ route('admin.contact.destroy', $message) }}" onsubmit="return confirm('Delete this message?')">
-                    @csrf @method('DELETE')
-                    <button type="submit" class="text-sm text-slate-500 hover:text-red-600">Delete</button>
-                </form>
+                <x-admin.confirm-delete :action="route('admin.contact.destroy', $message)"
+                                        title="Delete this message?"
+                                        :message="'The message from ' . $message->name . ' will be permanently removed.'"
+                                        class="text-sm text-slate-500 hover:text-red-600" />
             </div>
         </div>
     </div>
