@@ -36,12 +36,13 @@ class Division extends Model
 
             foreach ($all as $div) {
                 $info[$div->key] = [
-                    'name'             => $div->name,
-                    'families'         => $div->families ?: '—',
-                    'programmes'       => $div->programmes,
-                    'success'          => $div->success_rate ?: '—',
-                    'total_districts'  => $div->districts->count(),
-                    'active_districts' => $div->districts->where('is_active', true)->count(),
+                    'name'                  => $div->name,
+                    'families'              => $div->families ?: '—',
+                    'programmes'            => $div->programmes,
+                    'success'               => $div->success_rate ?: '—',
+                    'total_districts'       => $div->districts->count(),
+                    'active_districts'      => $div->districts->where('is_active', true)->count(),
+                    'active_district_names' => $div->districts->where('is_active', true)->pluck('name')->values()->all(),
                 ];
 
                 foreach ($div->districts as $d) {

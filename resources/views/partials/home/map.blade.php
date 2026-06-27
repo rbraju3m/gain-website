@@ -51,22 +51,22 @@
                         {{-- Base SVG: real Bangladesh divisions --}}
                         {!! file_get_contents(public_path('images/bangladesh-divisions.svg')) !!}
 
-                        {{-- Overlay SVG: district markers (same viewBox) --}}
+                        {{-- Overlay SVG: district markers (same viewBox) — active districts only --}}
                         <svg viewBox="0 0 1550 2149" class="district-overlay" aria-hidden="true">
                             @foreach ($districts as $d)
+                                @continue(! $d['active'])
                                 <g class="district-marker"
                                    data-name="{{ $d['name'] }}"
                                    data-division="{{ $d['division'] }}">
-                                    @if ($d['active'])
-                                        {{-- Active: pulsing ring + solid dot --}}
-                                        <circle cx="{{ $d['x'] }}" cy="{{ $d['y'] }}" r="22" class="pulse-ring"/>
-                                        <circle cx="{{ $d['x'] }}" cy="{{ $d['y'] }}" r="14" fill="#FFFFFF" stroke="#9C2245" stroke-width="3"/>
-                                        <circle cx="{{ $d['x'] }}" cy="{{ $d['y'] }}" r="7"  fill="#9C2245"/>
-                                    @else
-                                        {{-- Inactive: small muted dot --}}
-                                        <circle cx="{{ $d['x'] }}" cy="{{ $d['y'] }}" r="6" fill="#FFFFFF" stroke="#1F1B22" stroke-opacity="0.35" stroke-width="1.5"/>
-                                    @endif
-                                    <title>{{ $d['name'] }}{{ $d['active'] ? ' — Active programme' : '' }}</title>
+                                    <circle cx="{{ $d['x'] }}" cy="{{ $d['y'] }}" r="22" class="pulse-ring"/>
+                                    <circle cx="{{ $d['x'] }}" cy="{{ $d['y'] }}" r="14" fill="#FFFFFF" stroke="#9C2245" stroke-width="3"/>
+                                    <circle cx="{{ $d['x'] }}" cy="{{ $d['y'] }}" r="7"  fill="#9C2245"/>
+                                    {{-- Label: white halo behind for legibility on the green division fill --}}
+                                    <text x="{{ $d['x'] + 28 }}" y="{{ $d['y'] + 14 }}"
+                                          class="district-label-halo">{{ $d['name'] }}</text>
+                                    <text x="{{ $d['x'] + 28 }}" y="{{ $d['y'] + 14 }}"
+                                          class="district-label">{{ $d['name'] }}</text>
+                                    <title>{{ $d['name'] }} — Active programme</title>
                                 </g>
                             @endforeach
                         </svg>
@@ -78,15 +78,11 @@
                             <span class="grid h-4 w-4 place-items-center rounded-full bg-brand-red-500 ring-2 ring-white"></span>
                             Active programme district
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="grid h-4 w-4 place-items-center rounded-full bg-white ring-2 ring-brand-ink/30"></span>
-                            Not yet covered
-                        </div>
                     </div>
                 </div>
             </div>
 
-            {{-- Sidebar (2 of 5 cols) --}}
+            {{-- Sidebar (2 of 5 cols): active districts in the hovered region --}}
             <div class="lg:col-span-2">
                 <div class="rounded-[2rem] bg-white p-8 shadow-card ring-1 ring-black/5">
                     <div class="flex items-center gap-3">
@@ -96,50 +92,27 @@
                             </svg>
                         </span>
                         <div>
-                            <div class="text-xs uppercase tracking-wider text-brand-muted">Division</div>
-                            <div class="font-display text-2xl font-bold text-brand-red-500" x-text="current().name">Dhaka</div>
-                        </div>
-                    </div>
-
-                    <dl class="mt-6 space-y-4">
-                        <div class="flex items-center justify-between border-b border-brand-cream pb-3">
-                            <dt class="text-sm text-brand-muted">Families Served</dt>
-                            <dd class="font-display text-xl font-bold text-brand-red-500" x-text="current().families">4,200+</dd>
-                        </div>
-                        <div class="flex items-center justify-between border-b border-brand-cream pb-3">
-                            <dt class="text-sm text-brand-muted">Active Programmes</dt>
-                            <dd class="font-display text-xl font-bold text-brand-green-600" x-text="current().programmes">62</dd>
-                        </div>
-                        <div class="flex items-center justify-between border-b border-brand-cream pb-3">
-                            <dt class="text-sm text-brand-muted">Districts Covered</dt>
-                            <dd class="font-display text-xl font-bold text-brand-orange-500">
+                            <div class="text-xs uppercase tracking-wider text-brand-muted">Active Districts</div>
+                            <div class="font-display text-2xl font-bold text-brand-red-500">
                                 <span x-text="current().active_districts">6</span>
-                                <span class="text-sm text-brand-muted">/ <span x-text="current().total_districts">13</span></span>
-                            </dd>
+                                <span class="text-sm font-semibold text-brand-muted">/ <span x-text="current().total_districts">13</span> covered</span>
+                            </div>
                         </div>
-                        <div class="flex items-center justify-between">
-                            <dt class="text-sm text-brand-muted">Success Rate</dt>
-                            <dd class="font-display text-xl font-bold text-brand-green-600" x-text="current().success">98%</dd>
-                        </div>
-                    </dl>
-
-                    <a href="#" class="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-red-500 px-5 py-3 text-sm font-semibold text-white shadow-pill hover:bg-brand-red-600">
-                        View Full Report
-                        <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
-                            <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
-                        </svg>
-                    </a>
-
-                    <div class="mt-7 flex flex-wrap gap-2">
-                        @foreach ($divisionInfo as $key => $d)
-                            <button type="button"
-                                @click="active = '{{ $key }}'"
-                                :class="active === '{{ $key }}' ? 'bg-brand-red-500 text-white' : 'bg-brand-cream text-brand-muted hover:bg-brand-red-100 hover:text-brand-red-500'"
-                                class="rounded-full px-3 py-1 text-xs font-semibold transition">
-                                {{ $d['name'] }}
-                            </button>
-                        @endforeach
                     </div>
+
+                    <ul class="mt-6 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-brand-ink"
+                        x-show="current().active_district_names.length">
+                        <template x-for="name in current().active_district_names" :key="name">
+                            <li class="flex items-center gap-2">
+                                <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red-500"></span>
+                                <span x-text="name"></span>
+                            </li>
+                        </template>
+                    </ul>
+                    <p class="mt-6 text-sm italic text-brand-muted"
+                       x-show="! current().active_district_names.length">
+                        No active districts in this region yet.
+                    </p>
                 </div>
             </div>
         </div>
@@ -164,6 +137,23 @@
     /* District markers */
     .district-marker { pointer-events: auto; cursor: pointer; }
     .district-marker:hover { filter: drop-shadow(0 4px 6px rgba(156,34,69,0.45)); }
+
+    /* District name labels (rendered inside SVG viewBox 1550x2149) */
+    .district-label, .district-label-halo {
+        font-family: 'Figtree', system-ui, sans-serif;
+        font-size: 38px;
+        font-weight: 700;
+        dominant-baseline: middle;
+        pointer-events: none;
+    }
+    .district-label { fill: #9C2245; }
+    .district-label-halo {
+        fill: none;
+        stroke: #FFFFFF;
+        stroke-width: 7;
+        stroke-linejoin: round;
+        paint-order: stroke;
+    }
 
     /* Pulse ring for active districts */
     .pulse-ring {
