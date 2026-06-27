@@ -51,25 +51,18 @@
         </div>
 
         <div class="mt-6">
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500">Logo</label>
-            @if ($partner->logoUrl())
-                <div class="mt-2 flex items-center gap-4">
-                    <div class="flex h-20 w-40 items-center justify-center rounded-lg bg-slate-50 ring-1 ring-slate-200">
-                        <img src="{{ $partner->logoUrl() }}" alt="" class="max-h-16 max-w-32 object-contain">
-                    </div>
-                    @if ($partner->getFirstMedia('logo'))
-                        <label class="inline-flex items-center gap-2 text-sm">
-                            <input type="checkbox" name="remove_logo" value="1" class="h-4 w-4 rounded border-slate-300 text-brand-red-500 focus:ring-brand-red-500">
-                            <span class="text-slate-700">Remove uploaded logo (fall back to demo SVG)</span>
-                        </label>
-                    @else
-                        <span class="text-xs text-slate-500">Showing built-in demo SVG (no upload yet)</span>
-                    @endif
-                </div>
+            <x-admin.image-input
+                name="logo"
+                remove-name="remove_logo"
+                label="Logo"
+                :current-url="$partner->getFirstMedia('logo') ? $partner->logoUrl() : null"
+                accept="image/svg+xml,image/png,image/jpeg,image/webp"
+                preview-class="h-24 w-40 bg-slate-50 p-3"
+                fit="contain"
+                help-text="SVG (preferred), PNG, JPG or WebP. Up to 2 MB." />
+            @if (! $partner->getFirstMedia('logo') && $partner->logoUrl())
+                <p class="mt-3 text-xs italic text-slate-500">Showing built-in demo SVG — upload a logo to replace it.</p>
             @endif
-            <input type="file" name="logo" accept="image/svg+xml,image/png,image/jpeg,image/webp"
-                   class="mt-2 block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200">
-            <p class="mt-1 text-xs text-slate-400">SVG (preferred), PNG, JPG or WebP. Up to 2 MB.</p>
         </div>
     </div>
 

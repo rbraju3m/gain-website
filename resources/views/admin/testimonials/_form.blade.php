@@ -45,19 +45,13 @@
         </div>
 
         <div class="mt-6">
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500">Author photo</label>
-            @if ($testimonial->photoUrl())
-                <div class="mt-2 flex items-center gap-4">
-                    <img src="{{ $testimonial->photoUrl() }}" alt="" class="h-20 w-20 rounded-full object-cover ring-1 ring-slate-200">
-                    <label class="inline-flex items-center gap-2 text-sm">
-                        <input type="checkbox" name="remove_photo" value="1" class="h-4 w-4 rounded border-slate-300 text-brand-red-500 focus:ring-brand-red-500">
-                        <span class="text-slate-700">Remove current photo</span>
-                    </label>
-                </div>
-            @endif
-            <input type="file" name="photo" accept="image/*"
-                   class="mt-2 block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200">
-            <p class="mt-1 text-xs text-slate-400">JPG/PNG/WebP, up to 2 MB. Square photos work best.</p>
+            <x-admin.image-input
+                name="photo"
+                remove-name="remove_photo"
+                label="Author photo"
+                :current-url="$testimonial->photoUrl()"
+                preview-class="h-24 w-24 rounded-full"
+                help-text="JPG, PNG or WebP, up to 2 MB. Square photos work best." />
         </div>
     </div>
 

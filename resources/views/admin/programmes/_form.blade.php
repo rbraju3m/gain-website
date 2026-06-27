@@ -53,19 +53,10 @@
         </div>
 
         <div class="mt-6">
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500">Image</label>
-            @if ($programme->imageUrl())
-                <div class="mt-2 flex items-center gap-4">
-                    <img src="{{ $programme->imageUrl() }}" alt="" class="h-24 w-32 rounded-lg object-cover ring-1 ring-slate-200">
-                    <label class="inline-flex items-center gap-2 text-sm">
-                        <input type="checkbox" name="remove_image" value="1" class="h-4 w-4 rounded border-slate-300 text-brand-red-500 focus:ring-brand-red-500">
-                        <span class="text-slate-700">Remove current image</span>
-                    </label>
-                </div>
-            @endif
-            <input type="file" name="image" accept="image/*"
-                   class="mt-2 block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200">
-            <p class="mt-1 text-xs text-slate-400">JPG/PNG/WebP, up to 5 MB. Recommended ratio 16:9.</p>
+            <x-admin.image-input
+                label="Image"
+                :current-url="$programme->imageUrl()"
+                help-text="JPG, PNG or WebP, up to 5 MB. Recommended ratio 16:9." />
         </div>
     </div>
 

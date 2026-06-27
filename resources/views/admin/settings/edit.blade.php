@@ -66,12 +66,11 @@
             </div>
 
             <div class="mt-5">
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500">Hero image</label>
-                @if (setting('hero.image_path'))
-                    <img src="{{ asset('storage/'.setting('hero.image_path')) }}" alt="" class="mt-2 h-32 w-auto rounded-lg object-cover ring-1 ring-slate-200">
-                @endif
-                <input type="file" name="hero_image" accept="image/*" class="mt-2 block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200">
-                <p class="mt-1 text-xs text-slate-400">JPG/PNG/WebP, up to 5 MB. Leave empty to keep current image.</p>
+                <x-admin.image-input
+                    name="hero_image"
+                    label="Hero image"
+                    :current-url="setting('hero.image_path') ? asset('storage/'.setting('hero.image_path')) : null"
+                    help-text="JPG, PNG or WebP, up to 5 MB. Leave empty to keep the current image." />
             </div>
         </div>
     </div>
@@ -97,11 +96,11 @@
             </div>
 
             <div class="mt-5">
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500">About image</label>
-                @if (setting('about.image_path'))
-                    <img src="{{ asset('storage/'.setting('about.image_path')) }}" alt="" class="mt-2 h-32 w-auto rounded-lg object-cover ring-1 ring-slate-200">
-                @endif
-                <input type="file" name="about_image" accept="image/*" class="mt-2 block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200">
+                <x-admin.image-input
+                    name="about_image"
+                    label="About image"
+                    :current-url="setting('about.image_path') ? asset('storage/'.setting('about.image_path')) : null"
+                    help-text="JPG, PNG or WebP, up to 5 MB. Leave empty to keep the current image." />
             </div>
         </div>
     </div>
