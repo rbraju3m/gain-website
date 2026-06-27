@@ -26,6 +26,7 @@
         ['label' => 'M / V / V',     'route' => 'admin.mvv.index',         'icon' => 'M12 2 4 6v6c0 5 3.5 9.74 8 10 4.5-.26 8-5 8-10V6l-8-4Z'],
         ['label' => 'Map · Divisions','route' => 'admin.divisions.index',   'icon' => 'M9 4 3 7v13l6-3 6 3 6-3V4l-6 3-6-3Zm0 0v13M15 7v13'],
         ['label' => 'Map · Districts','route' => 'admin.districts.index',   'icon' => 'M12 2a7 7 0 0 0-7 7c0 5.5 7 13 7 13s7-7.5 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z'],
+        ['label' => 'Contact inbox', 'route' => 'admin.contact.index',     'icon' => 'M3 8l9 6 9-6M3 6h18v12H3z'],
     ];
 @endphp
 
