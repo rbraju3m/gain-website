@@ -8,7 +8,7 @@
                     ? asset('storage/' . setting('about.image_path'))
                     : asset('images/about-farming.jpg');
             @endphp
-            <div class="img-zoom overflow-hidden rounded-[2rem] shadow-card">
+            <div class="reveal-image img-zoom overflow-hidden rounded-[2rem] shadow-card">
                 <img
                     src="{{ $aboutImg }}"
                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=900&q=80'"

@@ -61,11 +61,8 @@
         @endif
     </div>
 
-    {{-- Divider: cream → burgundy (into CTA). Anchored to the section's bottom
-         edge so it meets the CTA burgundy with no cream gap from the py-24. --}}
-    <svg viewBox="0 0 1440 90" class="absolute inset-x-0 bottom-0 block w-full text-[#9C2245]" preserveAspectRatio="none" aria-hidden="true">
-        <path fill="currentColor" d="M0,40 C300,80 600,10 900,45 C1140,75 1300,60 1440,30 L1440,90 L0,90 Z"/>
-    </svg>
+    {{-- Layered wave: cream → burgundy (into CTA) --}}
+    @include('partials.wave-divider', ['colorClass' => 'text-[#9C2245]', 'variant' => 'burgundy'])
 </section>
 
 <style>

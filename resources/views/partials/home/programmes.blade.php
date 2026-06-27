@@ -70,9 +70,6 @@
         </div>
     </div>
 
-    {{-- Divider: white → burgundy (into Stories). Anchored to the section's bottom
-         edge so it meets the Stories burgundy with no white gap from the py-24. --}}
-    <svg viewBox="0 0 1440 90" class="absolute inset-x-0 bottom-0 block w-full text-[#9C2245]" preserveAspectRatio="none" aria-hidden="true">
-        <path fill="currentColor" d="M0,30 C360,90 720,0 1080,40 C1260,60 1380,75 1440,55 L1440,90 L0,90 Z"/>
-    </svg>
+    {{-- Layered wave: white → burgundy (into Stories) --}}
+    @include('partials.wave-divider', ['colorClass' => 'text-[#9C2245]', 'variant' => 'burgundy'])
 </section>

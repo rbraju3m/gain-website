@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
 
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    document.querySelectorAll('.reveal, .reveal-image').forEach(el => revealObserver.observe(el));
 
     // 2. Counter — animate stat numbers when they appear.
     const counterObserver = new IntersectionObserver((entries) => {

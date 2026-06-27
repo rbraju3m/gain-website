@@ -361,6 +361,53 @@
         .nav-link::after { transition: none; }
     }
 
+    /* Layered wave divider — back + mid layers slowly drift left/right while
+       the front layer stays put. Restored under prefers-reduced-motion. */
+    .wave-divider .wave-back {
+        transform-origin: center;
+        animation: wave-drift 14s ease-in-out infinite alternate;
+    }
+    .wave-divider .wave-mid {
+        transform-origin: center;
+        animation: wave-drift 10s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes wave-drift {
+        0%   { transform: translateX(-12px); }
+        100% { transform: translateX(12px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .wave-divider .wave-back,
+        .wave-divider .wave-mid { animation: none; }
+    }
+
+    /* Image reveal sweep — animates a burgundy mask off an image as it scrolls in.
+       Apply .reveal-image to the parent figure that holds the <img>; the JS
+       reveal observer flips it to .is-visible like other reveal elements. */
+    .reveal-image {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+    }
+    .reveal-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(115deg,
+            #9C2245 0%,
+            #9C2245 45%,
+            #87B558 80%,
+            #FFA268 100%);
+        transform-origin: right center;
+        transition: transform 0.95s cubic-bezier(0.7, 0, 0.3, 1) 0.15s;
+        z-index: 1;
+        pointer-events: none;
+    }
+    .reveal-image > * { position: relative; z-index: 0; }
+    .reveal-image.is-visible::after { transform: scaleX(0); }
+    @media (prefers-reduced-motion: reduce) {
+        .reveal-image::after { display: none; }
+    }
+
     /* Fixed scroll-progress bar — width driven by --scroll-progress (0–1) from app.js */
     .scroll-progress {
         position: fixed;

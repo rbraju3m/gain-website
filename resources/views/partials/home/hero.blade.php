@@ -59,7 +59,7 @@
                     ? asset('storage/' . setting('hero.image_path'))
                     : asset('images/hero-cooking.jpg');
             @endphp
-            <div class="img-zoom relative overflow-hidden rounded-[2.5rem] shadow-card">
+            <div class="reveal-image img-zoom relative overflow-hidden rounded-[2.5rem] shadow-card">
                 <img
                     src="{{ $heroImg }}"
                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=900&q=80'"
