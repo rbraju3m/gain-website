@@ -33,7 +33,12 @@
             ['label' => 'Partners',      'route' => 'admin.partners.index',    'icon' => 'M9 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm6 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3 21a6 6 0 0 1 12 0M9 21a6 6 0 0 1 12 0'],
             ['label' => 'Testimonials',  'route' => 'admin.testimonials.index','icon' => 'M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z'],
         ],
+        'Gallery' => [
+            ['label' => 'Gallery years',  'route' => 'admin.gallery-years.index',  'icon' => 'M4 6h16v14H4zM8 6V4h8v2M4 12h16'],
+            ['label' => 'Gallery images', 'route' => 'admin.gallery-images.index', 'icon' => 'M4 4h16v16H4zM4 16l4-4 4 4 3-3 5 5'],
+        ],
         'Sections' => [
+            ['label' => 'Hero carousel', 'route' => 'admin.hero-slides.index', 'icon' => 'M4 6h16v10H4zM2 8v6M22 8v6M8 20h8'],
             ['label' => 'Impact stats',  'route' => 'admin.impact.index',      'icon' => 'M3 17 9 11l4 4 8-8M14 7h7v7'],
             ['label' => 'Achievements',  'route' => 'admin.achievements.index','icon' => 'M6 9h12v3a6 6 0 0 1-12 0V9ZM4 4h16v4H4zM10 21h4v-3h-4v3Z'],
             ['label' => 'M / V / V',     'route' => 'admin.mvv.index',         'icon' => 'M12 2 4 6v6c0 5 3.5 9.74 8 10 4.5-.26 8-5 8-10V6l-8-4Z'],

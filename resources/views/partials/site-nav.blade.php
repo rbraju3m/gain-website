@@ -3,7 +3,7 @@
     // Open in a new tab; replace the placeholder URLs when the real ones are known.
     $pinnedProgrammes = [
         ['label' => 'At a Glance', 'url' => 'https://example.com/at-a-glance'],
-        ['label' => 'Swapno',      'url' => 'https://example.com/swapno'],
+        ['label' => 'Swapno',      'url' => 'https://cqi.workforcenutritionbd.org/'],
     ];
 
     // Live Programmes dropdown — pulls from the same dataset that drives the
@@ -36,6 +36,7 @@
                     ['label' => 'Impact',   'href' => url('/#impact')],
                     ['label' => 'Stories',  'href' => url('/#stories')],
                     ['label' => 'Partners', 'href' => url('/#partners')],
+                    ['label' => 'Gallery',  'href' => route('gallery.index')],
                     ['label' => 'News',     'href' => route('news.index')],
                     ['label' => 'Contact',  'href' => url('/#contact')],
                 ];
@@ -220,6 +221,7 @@
                 <li><a href="{{ url('/#impact') }}"    @click="mobileOpen = false" class="block rounded-lg px-3 py-2.5 hover:bg-brand-red-50 hover:text-brand-red-500">Impact</a></li>
                 <li><a href="{{ url('/#stories') }}"   @click="mobileOpen = false" class="block rounded-lg px-3 py-2.5 hover:bg-brand-red-50 hover:text-brand-red-500">Stories</a></li>
                 <li><a href="{{ url('/#partners') }}"  @click="mobileOpen = false" class="block rounded-lg px-3 py-2.5 hover:bg-brand-red-50 hover:text-brand-red-500">Partners</a></li>
+                <li><a href="{{ route('gallery.index') }}" @click="mobileOpen = false" class="block rounded-lg px-3 py-2.5 hover:bg-brand-red-50 hover:text-brand-red-500">Gallery</a></li>
                 <li><a href="{{ route('news.index') }}" @click="mobileOpen = false" class="block rounded-lg px-3 py-2.5 hover:bg-brand-red-50 hover:text-brand-red-500">News</a></li>
                 <li><a href="{{ url('/#contact') }}"   @click="mobileOpen = false" class="block rounded-lg px-3 py-2.5 hover:bg-brand-red-50 hover:text-brand-red-500">Contact</a></li>
             </ul>

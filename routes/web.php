@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\GalleryImageController as AdminGalleryImageController;
+use App\Http\Controllers\Admin\GalleryYearController as AdminGalleryYearController;
+use App\Http\Controllers\Admin\HeroSlideController as AdminHeroSlideController;
 use App\Http\Controllers\Admin\NewsArticleController as AdminNewsArticleController;
 use App\Http\Controllers\Admin\AchievementController as AdminAchievementController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
@@ -14,6 +17,7 @@ use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\NewsArticleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgrammeController;
@@ -29,6 +33,7 @@ Route::get('/programmes',                  [ProgrammeController::class, 'index']
 Route::get('/programmes/{programme:slug}', [ProgrammeController::class, 'show'])->name('programmes.show');
 Route::get('/news',                        [NewsArticleController::class, 'index'])->name('news.index');
 Route::get('/news/{article:slug}',         [NewsArticleController::class, 'show'])->name('news.show');
+Route::get('/gallery',                     [GalleryController::class, 'index'])->name('gallery.index');
 
 // Post-login landing. Kept under the name "dashboard" so all the Breeze
 // redirects in app/Http/Controllers/Auth/* keep resolving — but admins go
@@ -57,6 +62,9 @@ Route::middleware(['auth', 'role:admin'])
 
         // Drag-and-drop sort endpoints (must be declared before the resource
         // routes so they don't collide with /{model} parameters).
+        Route::post('hero-slides/sort',    [AdminHeroSlideController::class,     'sort'])->name('hero-slides.sort');
+        Route::post('gallery-years/sort',  [AdminGalleryYearController::class,   'sort'])->name('gallery-years.sort');
+        Route::post('gallery-images/sort', [AdminGalleryImageController::class,  'sort'])->name('gallery-images.sort');
         Route::post('programmes/sort',   [AdminProgrammeController::class,   'sort'])->name('programmes.sort');
         Route::post('partners/sort',     [AdminPartnerController::class,     'sort'])->name('partners.sort');
         Route::post('testimonials/sort', [AdminTestimonialController::class, 'sort'])->name('testimonials.sort');
@@ -64,6 +72,9 @@ Route::middleware(['auth', 'role:admin'])
         Route::post('achievements/sort', [AdminAchievementController::class, 'sort'])->name('achievements.sort');
         Route::post('mvv/sort',          [AdminMvvCardController::class,     'sort'])->name('mvv.sort');
 
+        Route::resource('hero-slides', AdminHeroSlideController::class)->except(['show']);
+        Route::resource('gallery-years',  AdminGalleryYearController::class)->except(['show']);
+        Route::resource('gallery-images', AdminGalleryImageController::class)->except(['show']);
         Route::resource('programmes', AdminProgrammeController::class)->except(['show']);
         Route::resource('news', AdminNewsArticleController::class)->except(['show']);
         Route::resource('partners', AdminPartnerController::class)->except(['show']);

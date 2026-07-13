@@ -23,6 +23,7 @@ class SettingsController extends Controller
         // Flatten nested input back to dot-notation keys
         foreach ($data['hero']   ?? [] as $k => $v) { $pairs["hero.{$k}"]   = $v; }
         foreach ($data['about']  ?? [] as $k => $v) { $pairs["about.{$k}"]  = $v; }
+        foreach ($data['map']    ?? [] as $k => $v) { $pairs["map.{$k}"]    = $v; }
         foreach ($data['cta']    ?? [] as $k => $v) { $pairs["cta.{$k}"]    = $v; }
         foreach ($data['footer'] ?? [] as $k => $v) {
             if ($k === 'social' && is_array($v)) {

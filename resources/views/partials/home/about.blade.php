@@ -16,6 +16,7 @@
                     class="aspect-[4/3] w-full object-cover"
                 >
             </div>
+            {{--
             <div class="absolute -bottom-6 right-6 rounded-2xl bg-white px-6 py-4 text-center shadow-card ring-1 ring-black/5 sm:right-10">
                 @php
                     // Counter expects a numeric digit prefix in the value; extract.
@@ -27,6 +28,7 @@
                      data-counter="{{ $badgeDigits }}" data-counter-suffix="{{ $badgeSuffix }}">0{{ $badgeSuffix }}</div>
                 <div class="text-xs text-brand-muted">{{ setting('about.years_badge_label', 'Years of Impact') }}</div>
             </div>
+            --}}
         </div>
 
         <div class="reveal reveal-delay-200">
@@ -38,6 +40,7 @@
             <p class="mt-5 text-brand-muted">{{ setting('about.paragraph_1') }}</p>
             <p class="mt-4 text-brand-muted">{{ setting('about.paragraph_2') }}</p>
 
+            {{--
             <dl class="mt-8 grid grid-cols-2 gap-x-8 gap-y-6">
                 @foreach ([
                     ['label' => 'Families Impacted', 'counter' => 15000, 'suffix' => '+', 'tone' => 'red'],
@@ -53,6 +56,7 @@
                     </div>
                 @endforeach
             </dl>
+            --}}
         </div>
     </div>
 </section>

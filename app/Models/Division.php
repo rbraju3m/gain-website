@@ -56,7 +56,15 @@ class Division extends Model
                 }
             }
 
-            return ['divisionInfo' => $info, 'districts' => $districts];
+            $divisionsCovered = collect($info)->filter(fn ($d) => ($d['active_districts'] ?? 0) > 0)->count();
+            $districtsCovered = collect($districts)->where('active', true)->count();
+
+            return [
+                'divisionInfo'      => $info,
+                'districts'         => $districts,
+                'divisions_covered' => $divisionsCovered,
+                'districts_covered' => $districtsCovered,
+            ];
         });
     }
 

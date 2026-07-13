@@ -13,6 +13,6 @@
     @include('partials.home.map')
     @include('partials.home.news')
     @include('partials.home.partners')
-    @include('partials.home.cta')
+    {{-- @include('partials.home.cta') --}}
     @include('partials.home.contact')
 @endsection

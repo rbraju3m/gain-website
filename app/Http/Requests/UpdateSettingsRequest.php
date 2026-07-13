@@ -44,6 +44,11 @@ class UpdateSettingsRequest extends FormRequest
             'about.years_badge_label' => ['nullable', 'string', 'max:80'],
             'about_image'             => ['nullable', 'image', 'max:5120'],
 
+            // Map coverage
+            'map.upazila_count'    => ['nullable', 'integer', 'min:0', 'max:999999'],
+            'map.union_count'      => ['nullable', 'integer', 'min:0', 'max:9999999'],
+            'map.population_count' => ['nullable', 'integer', 'min:0', 'max:9999999999'],
+
             // CTA
             'cta.heading_line1'  => ['nullable', 'string', 'max:120'],
             'cta.heading_line2'  => ['nullable', 'string', 'max:120'],

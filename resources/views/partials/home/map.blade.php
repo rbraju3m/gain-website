@@ -1,9 +1,27 @@
 {{-- Section 8: Bangladesh Map — divisions + active-district coverage --}}
 @php
-    // Pre-computed structure (divisionInfo + districts[] w/ x/y already
-    // projected). forHomepage() is cached forever; saving any Division or
-    // District (including the bulk districts toggle) busts the cache.
-    ['divisionInfo' => $divisionInfo, 'districts' => $districts] = \App\Models\Division::forHomepage();
+    // forHomepage() is cached forever; any Division/District save (including
+    // the bulk district-toggle endpoint) busts the cache.
+    [
+        'divisionInfo'      => $divisionInfo,
+        'districts'         => $districts,
+        'divisions_covered' => $mapDivisionsCovered,
+        'districts_covered' => $mapDistrictsCovered,
+    ] = \App\Models\Division::forHomepage();
+
+    $mapStats = [
+        ['label' => 'Divisions covered',  'value' => $mapDivisionsCovered,               'suffix' => '',  'tone' => 'red',    'icon' => 'M9 4 3 7v13l6-3 6 3 6-3V4l-6 3-6-3Zm0 0v13M15 7v13'],
+        ['label' => 'Districts covered',  'value' => $mapDistrictsCovered,               'suffix' => '',  'tone' => 'green',  'icon' => 'M12 2a7 7 0 0 0-7 7c0 5.5 7 13 7 13s7-7.5 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z'],
+        ['label' => 'Upazilas covered',   'value' => (int) setting('map.upazila_count',    0), 'suffix' => '',  'tone' => 'orange', 'icon' => 'M4 4h16v16H4zM4 10h16M10 4v16'],
+        ['label' => 'Unions covered',     'value' => (int) setting('map.union_count',      0), 'suffix' => '+', 'tone' => 'red',    'icon' => 'M9 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm6 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3 21a6 6 0 0 1 12 0M9 21a6 6 0 0 1 12 0'],
+        ['label' => 'Population reached', 'value' => (int) setting('map.population_count', 0), 'suffix' => '+', 'tone' => 'green',  'icon' => 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-8 9a8 8 0 1 1 16 0H4Z'],
+    ];
+
+    $toneClasses = [
+        'red'    => ['bg' => 'bg-brand-red-100',    'text' => 'text-brand-red-500'],
+        'green'  => ['bg' => 'bg-brand-green-100',  'text' => 'text-brand-green-600'],
+        'orange' => ['bg' => 'bg-brand-orange-100', 'text' => 'text-brand-orange-500'],
+    ];
 @endphp
 
 <section id="map" class="bg-blueprint py-24"
@@ -163,37 +181,36 @@
                 </div>
             </div>
 
-            {{-- Sidebar (2 of 5 cols): active districts in the hovered region --}}
+            {{-- Sidebar (2 of 5 cols): five coverage stats, revealed one by one --}}
             <div class="lg:col-span-2">
                 <div class="rounded-[2rem] bg-white p-8 shadow-card ring-1 ring-black/5">
-                    <div class="flex items-center gap-3">
-                        <span class="grid h-10 w-10 place-items-center rounded-full bg-brand-red-100 text-brand-red-500">
-                            <svg viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
-                                <path d="M12 2a7 7 0 0 0-7 7c0 5.5 7 13 7 13s7-7.5 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"/>
-                            </svg>
-                        </span>
-                        <div>
-                            <div class="text-xs uppercase tracking-wider text-brand-muted">Active Districts</div>
-                            <div class="font-display text-2xl font-bold text-brand-red-500">
-                                <span x-text="current().active_districts">6</span>
-                                <span class="text-sm font-semibold text-brand-muted">/ <span x-text="current().total_districts">13</span> covered</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <ul class="mt-6 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-brand-ink"
-                        x-show="current().active_district_names.length">
-                        <template x-for="name in current().active_district_names" :key="name">
-                            <li class="flex items-center gap-2">
-                                <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red-500"></span>
-                                <span x-text="name"></span>
-                            </li>
-                        </template>
-                    </ul>
-                    <p class="mt-6 text-sm italic text-brand-muted"
-                       x-show="! current().active_district_names.length">
-                        No active districts in this region yet.
+                    <div class="text-xs font-semibold uppercase tracking-[0.18em] text-brand-green-600">Our reach</div>
+                    <h3 class="mt-2 font-display text-2xl font-bold text-brand-ink">Coverage at a glance</h3>
+                    <p class="mt-2 text-sm text-brand-muted">
+                        A snapshot of where our programmes are active across Bangladesh.
                     </p>
+
+                    <ul class="mt-6 space-y-3">
+                        @foreach ($mapStats as $i => $stat)
+                            @php
+                                $tone       = $toneClasses[$stat['tone']] ?? $toneClasses['red'];
+                                $delayClass = 'reveal-delay-'.min(500, ($i + 1) * 100);
+                            @endphp
+                            <li class="reveal {{ $delayClass }} flex items-center gap-4 rounded-2xl border border-slate-100 bg-white/60 p-4 transition hover:border-slate-200 hover:bg-white hover:shadow-sm">
+                                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full {{ $tone['bg'] }} {{ $tone['text'] }}">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                                        <path d="{{ $stat['icon'] }}"/>
+                                    </svg>
+                                </span>
+                                <div class="min-w-0 flex-1">
+                                    <div class="font-display text-2xl font-bold {{ $tone['text'] }}"
+                                         data-counter="{{ $stat['value'] }}"
+                                         data-counter-suffix="{{ $stat['suffix'] }}">0{{ $stat['suffix'] }}</div>
+                                    <div class="text-xs uppercase tracking-wider text-brand-muted">{{ $stat['label'] }}</div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>

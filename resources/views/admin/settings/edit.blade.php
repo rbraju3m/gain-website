@@ -15,6 +15,7 @@
         @foreach ([
             'hero'   => 'Hero',
             'about'  => 'About',
+            'map'    => 'Map',
             'cta'    => 'CTA',
             'footer' => 'Footer',
         ] as $k => $label)
@@ -101,6 +102,26 @@
                     label="About image"
                     :current-url="setting('about.image_path') ? asset('storage/'.setting('about.image_path')) : null"
                     help-text="JPG, PNG or WebP, up to 5 MB. Leave empty to keep the current image." />
+            </div>
+        </div>
+    </div>
+
+    {{-- ────────── Map ────────── --}}
+    <div x-show="tab === 'map'" x-cloak class="space-y-6">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h3 class="text-base font-semibold text-slate-900">Map coverage counters</h3>
+            <p class="mt-1 text-sm text-slate-500">
+                Shown on the right-hand side of the Bangladesh map section.
+                Division and district counts are computed automatically from
+                the <a href="{{ route('admin.divisions.index') }}" class="font-semibold text-brand-red-500 hover:underline">Divisions</a>
+                and <a href="{{ route('admin.districts.index') }}" class="font-semibold text-brand-red-500 hover:underline">Districts</a>
+                data. The counters below are entered manually.
+            </p>
+
+            <div class="mt-6 grid gap-5 md:grid-cols-3">
+                <x-admin.settings.field name="map[upazila_count]"    label="Total upazilas covered"    type="number" :value="setting('map.upazila_count')"    hint="E.g. 204"/>
+                <x-admin.settings.field name="map[union_count]"      label="Total unions covered"      type="number" :value="setting('map.union_count')"      hint="E.g. 3000"/>
+                <x-admin.settings.field name="map[population_count]" label="Total population covered" type="number" :value="setting('map.population_count')" hint="E.g. 40000"/>
             </div>
         </div>
     </div>

@@ -19,36 +19,39 @@
             </p>
         </div>
 
-        {{-- Row 1: Strategic partners — static grid --}}
+        {{-- Row 1: Strategic partners — horizontal scrolling marquee (left → right) --}}
         @if ($strategicPartners->isNotEmpty())
-            <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                @php $delays = ['', 'reveal-delay-100', 'reveal-delay-200', 'reveal-delay-300']; @endphp
-                @foreach ($strategicPartners as $i => $p)
-                    @php $logo = $p->logoUrl(); @endphp
-                    @php $tag  = $p->url ? 'a' : 'div'; @endphp
-                    <{{ $tag }} @if ($p->url) href="{{ $p->url }}" target="_blank" rel="noopener" @endif
-                        class="reveal {{ $delays[$i % count($delays)] }} group flex h-32 items-center justify-center rounded-2xl bg-white p-5 shadow-card ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
-                        @if ($logo)
-                            <img src="{{ $logo }}" alt="{{ $p->name }}" class="max-h-full max-w-full object-contain transition group-hover:scale-105">
-                        @else
-                            <span class="text-sm font-semibold text-brand-ink">{{ $p->name }}</span>
-                        @endif
-                    </{{ $tag }}>
-                @endforeach
-            </div>
-        @endif
-
-        {{-- Row 2: Implementing partners — horizontal scrolling marquee --}}
-        @if ($implementingPartners->isNotEmpty())
-            <div class="reveal reveal-delay-200 mt-8 group relative overflow-hidden">
-                {{-- Fade edges --}}
+            <div class="reveal mt-14 group relative overflow-hidden">
                 <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-brand-cream to-transparent"></div>
                 <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-brand-cream to-transparent"></div>
 
-                <div class="marquee-track flex w-max gap-6">
+                <div class="marquee-track flex w-max gap-4">
+                    @foreach (collect()->range(1, 3)->flatMap(fn () => $strategicPartners) as $p)
+                        @php $logo = $p->logoUrl(); @endphp
+                        @php $tag  = $p->url ? 'a' : 'div'; @endphp
+                        <{{ $tag }} @if ($p->url) href="{{ $p->url }}" target="_blank" rel="noopener" @endif
+                            class="flex h-24 w-52 shrink-0 items-center justify-center rounded-xl bg-white p-3 shadow-card ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-soft">
+                            @if ($logo)
+                                <img src="{{ $logo }}" alt="{{ $p->name }}" class="max-h-full max-w-full object-contain">
+                            @else
+                                <span class="text-sm font-semibold text-brand-ink">{{ $p->name }}</span>
+                            @endif
+                        </{{ $tag }}>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+        {{-- Row 2: Implementing partners — horizontal scrolling marquee (right → left) --}}
+        @if ($implementingPartners->isNotEmpty())
+            <div class="reveal reveal-delay-200 mt-6 group relative overflow-hidden">
+                <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-brand-cream to-transparent"></div>
+                <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-brand-cream to-transparent"></div>
+
+                <div class="marquee-track marquee-track-reverse flex w-max gap-4">
                     @foreach (collect()->range(1, 3)->flatMap(fn () => $implementingPartners) as $p)
                         @php $logo = $p->logoUrl(); @endphp
-                        <div class="flex h-32 w-72 shrink-0 items-center justify-center rounded-2xl bg-white p-5 shadow-card ring-1 ring-black/5">
+                        <div class="flex h-24 w-52 shrink-0 items-center justify-center rounded-xl bg-white p-3 shadow-card ring-1 ring-black/5">
                             @if ($logo)
                                 <img src="{{ $logo }}" alt="{{ $p->name }}" class="max-h-full max-w-full object-contain">
                             @else
@@ -70,10 +73,11 @@
         0%   { transform: translateX(0); }
         100% { transform: translateX(-33.3333%); }
     }
-    .marquee-track {
-        animation: marquee 28s linear infinite;
+    @keyframes marquee-reverse {
+        0%   { transform: translateX(-33.3333%); }
+        100% { transform: translateX(0); }
     }
-    .group:hover .marquee-track {
-        animation-play-state: paused;
-    }
+    .marquee-track          { animation: marquee 28s linear infinite; }
+    .marquee-track-reverse  { animation: marquee-reverse 32s linear infinite; }
+    .group:hover .marquee-track { animation-play-state: paused; }
 </style>
