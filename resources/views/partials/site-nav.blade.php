@@ -9,6 +9,7 @@
     // Live Programmes dropdown — pulls from the same dataset that drives the
     // homepage card grid. Detail links use the public /programmes/{slug} route.
     $navProgrammes = \App\Models\Programme::published()->ordered()->get(['id', 'title', 'slug', 'category']);
+    $navServices   = \App\Models\Service::published()->ordered()->get(['id', 'title', 'slug', 'category']);
 @endphp
 
 <header
@@ -135,6 +136,75 @@
                 </div>
             </li>
 
+            {{-- Services dropdown --}}
+            <li
+                x-data="{ open: false }"
+                @mouseenter="open = true"
+                @mouseleave="open = false"
+                class="relative"
+            >
+                <button
+                    type="button"
+                    @click="open = !open"
+                    @focus="open = true"
+                    class="nav-link flex items-center gap-1"
+                    :aria-expanded="open"
+                >
+                    Services
+                    <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition" :class="open ? 'rotate-180' : ''">
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.06l3.71-3.83a.75.75 0 1 1 1.08 1.04l-4.25 4.39a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06Z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+
+                <div
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-150"
+                    x-transition:enter-start="opacity-0 -translate-y-1"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-100"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 -translate-y-1"
+                    x-cloak
+                    class="absolute left-1/2 top-full w-80 -translate-x-1/2 pt-3"
+                >
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/5">
+
+                        <div class="px-4 pb-1 pt-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-red-500">Our Services</div>
+
+                        <div class="px-2 py-2">
+                            @forelse ($navServices as $s)
+                                <a
+                                    href="{{ route('services.show', $s) }}"
+                                    class="group/dd flex items-start gap-3 rounded-xl px-3 py-2.5 text-sm text-brand-ink transition hover:bg-brand-red-50"
+                                >
+                                    <span class="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-brand-red-100 text-brand-red-500 transition group-hover/dd:bg-brand-red-500 group-hover/dd:text-white">
+                                        <svg viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5">
+                                            <path d="M4 4h12v3H4zM4 9h8v7H4zM14 9h2v7h-2z"/>
+                                        </svg>
+                                    </span>
+                                    <span class="min-w-0 flex-1">
+                                        <span class="block font-semibold leading-tight text-brand-ink group-hover/dd:text-brand-red-500">{{ $s->title }}</span>
+                                        @if ($s->category)
+                                            <span class="mt-0.5 block text-xs text-brand-muted">{{ $s->category }}</span>
+                                        @endif
+                                    </span>
+                                </a>
+                            @empty
+                                <div class="px-3 py-4 text-sm text-brand-muted">No services published yet.</div>
+                            @endforelse
+                        </div>
+
+                        <a href="{{ route('services.index') }}"
+                           class="flex items-center justify-between border-t border-brand-cream bg-brand-cream/50 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-brand-red-500 transition hover:bg-brand-cream">
+                            See all services
+                            <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+                                <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.08-1.04l5.5 5.75a.75.75 0 0 1 0 1.04l-5.5 5.75a.75.75 0 0 1-1.08-1.04l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </li>
+
             @foreach ($afterProgrammes as $item)
                 <li>
                     <a href="{{ $item['href'] }}" class="nav-link">{{ $item['label'] }}</a>
@@ -144,7 +214,7 @@
 
         {{-- Right cluster: CTA (desktop) + mobile toggle --}}
         <div class="flex items-center gap-3">
-            <a href="{{ url('/#contact') }}"
+            <a href="https://cqi.workforcenutritionbd.org/" target="_blank" rel="noopener noreferrer"
                class="btn-shimmer hidden items-center gap-2 rounded-full bg-brand-red-500 px-5 py-2.5 text-sm font-semibold text-white shadow-pill transition hover:bg-brand-red-600 lg:inline-flex">
                 <span class="inline-flex items-center gap-2">
                     Get Involved
@@ -218,6 +288,26 @@
                         </div>
                     </details>
                 </li>
+                <li>
+                    <details class="group">
+                        <summary class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 hover:bg-brand-red-50 hover:text-brand-red-500">
+                            Services
+                            <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition group-open:rotate-180">
+                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.06l3.71-3.83a.75.75 0 1 1 1.08 1.04l-4.25 4.39a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06Z" clip-rule="evenodd"/>
+                            </svg>
+                        </summary>
+                        <div class="ml-3 mt-1 space-y-0.5 border-l border-brand-cream pl-3">
+                            @forelse ($navServices as $s)
+                                <a href="{{ route('services.show', $s) }}" @click="mobileOpen = false" class="block rounded-lg px-3 py-2 text-sm text-brand-ink/85 hover:bg-brand-red-50 hover:text-brand-red-500">
+                                    {{ $s->title }}
+                                </a>
+                            @empty
+                                <div class="px-3 py-2 text-sm text-brand-muted">No services yet.</div>
+                            @endforelse
+                            <a href="{{ route('services.index') }}" @click="mobileOpen = false" class="block rounded-lg px-3 py-2 text-sm font-semibold text-brand-red-500 hover:bg-brand-red-50">See all →</a>
+                        </div>
+                    </details>
+                </li>
                 <li><a href="{{ url('/#impact') }}"    @click="mobileOpen = false" class="block rounded-lg px-3 py-2.5 hover:bg-brand-red-50 hover:text-brand-red-500">Impact</a></li>
                 <li><a href="{{ url('/#stories') }}"   @click="mobileOpen = false" class="block rounded-lg px-3 py-2.5 hover:bg-brand-red-50 hover:text-brand-red-500">Stories</a></li>
                 <li><a href="{{ url('/#partners') }}"  @click="mobileOpen = false" class="block rounded-lg px-3 py-2.5 hover:bg-brand-red-50 hover:text-brand-red-500">Partners</a></li>
@@ -226,7 +316,7 @@
                 <li><a href="{{ url('/#contact') }}"   @click="mobileOpen = false" class="block rounded-lg px-3 py-2.5 hover:bg-brand-red-50 hover:text-brand-red-500">Contact</a></li>
             </ul>
 
-            <a href="{{ url('/#contact') }}" @click="mobileOpen = false"
+            <a href="https://cqi.workforcenutritionbd.org/" target="_blank" rel="noopener noreferrer" @click="mobileOpen = false"
                class="btn-shimmer mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-red-500 px-5 py-3 text-sm font-semibold text-white shadow-pill hover:bg-brand-red-600">
                 <span class="inline-flex items-center gap-2">
                     Get Involved

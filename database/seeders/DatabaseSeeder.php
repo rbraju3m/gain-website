@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             SiteSettingsSeeder::class,
             ProgrammesSeeder::class,
+            ServicesSeeder::class,
             NewsArticlesSeeder::class,
             PartnersSeeder::class,
             TestimonialsSeeder::class,

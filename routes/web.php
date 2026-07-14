@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ImpactStatController as AdminImpactStatController
 use App\Http\Controllers\Admin\MvvCardController as AdminMvvCardController;
 use App\Http\Controllers\Admin\PartnerController as AdminPartnerController;
 use App\Http\Controllers\Admin\ProgrammeController as AdminProgrammeController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\NewsArticleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgrammeController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,6 +33,8 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 
 Route::get('/programmes',                  [ProgrammeController::class, 'index'])->name('programmes.index');
 Route::get('/programmes/{programme:slug}', [ProgrammeController::class, 'show'])->name('programmes.show');
+Route::get('/services',                    [ServiceController::class, 'index'])->name('services.index');
+Route::get('/services/{service:slug}',     [ServiceController::class, 'show'])->name('services.show');
 Route::get('/news',                        [NewsArticleController::class, 'index'])->name('news.index');
 Route::get('/news/{article:slug}',         [NewsArticleController::class, 'show'])->name('news.show');
 Route::get('/gallery',                     [GalleryController::class, 'index'])->name('gallery.index');
@@ -66,6 +70,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::post('gallery-years/sort',  [AdminGalleryYearController::class,   'sort'])->name('gallery-years.sort');
         Route::post('gallery-images/sort', [AdminGalleryImageController::class,  'sort'])->name('gallery-images.sort');
         Route::post('programmes/sort',   [AdminProgrammeController::class,   'sort'])->name('programmes.sort');
+        Route::post('services/sort',     [AdminServiceController::class,     'sort'])->name('services.sort');
         Route::post('partners/sort',     [AdminPartnerController::class,     'sort'])->name('partners.sort');
         Route::post('testimonials/sort', [AdminTestimonialController::class, 'sort'])->name('testimonials.sort');
         Route::post('impact/sort',       [AdminImpactStatController::class,  'sort'])->name('impact.sort');
@@ -76,6 +81,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::resource('gallery-years',  AdminGalleryYearController::class)->except(['show']);
         Route::resource('gallery-images', AdminGalleryImageController::class)->except(['show']);
         Route::resource('programmes', AdminProgrammeController::class)->except(['show']);
+        Route::resource('services', AdminServiceController::class)->except(['show']);
         Route::resource('news', AdminNewsArticleController::class)->except(['show']);
         Route::resource('partners', AdminPartnerController::class)->except(['show']);
         Route::resource('testimonials', AdminTestimonialController::class)->except(['show']);

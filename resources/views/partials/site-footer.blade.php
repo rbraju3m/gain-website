@@ -31,7 +31,7 @@
                 @endforeach
             </div>
 
-            <a href="{{ url('/#contact') }}"
+            <a href="https://cqi.workforcenutritionbd.org/" target="_blank" rel="noopener noreferrer"
                class="mt-7 inline-flex items-center gap-1.5 rounded-full border border-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-white/10">
                 Get Involved
                 <svg viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5">
@@ -46,6 +46,7 @@
             <ul class="mt-5 space-y-2.5 text-sm text-white/75">
                 <li><a href="{{ url('/#about') }}"            class="footer-link">About</a></li>
                 <li><a href="{{ route('programmes.index') }}" class="footer-link">Programmes</a></li>
+                <li><a href="{{ route('services.index') }}"   class="footer-link">Services</a></li>
                 <li><a href="{{ url('/#impact') }}"           class="footer-link">Impact</a></li>
                 <li><a href="{{ url('/#stories') }}"          class="footer-link">Stories</a></li>
                 <li><a href="{{ route('news.index') }}"       class="footer-link">News &amp; Events</a></li>
